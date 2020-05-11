@@ -1,0 +1,27 @@
+## 编译相关
+*.py[cod]
+*.so
+node_modules/
+__pycache__/
+
+## 操作系统IDE相关
+*.swp
+*.DS_Store
+.idea
+.vscode/
+
+## 数据库导出相关
+*.rdb
+*.sql
+db.sqlite3
+db_backup/
+
+## 项目相关
+media/
+dist/
+static/
+local_settings.py
+log/
+celerybeat-schedule
+celerybeat.pid
+*.log

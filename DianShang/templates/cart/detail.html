@@ -1,0 +1,249 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    {% trans "你的购物车" %}
+{% endblock %}
+
+{% block content %}
+    <!-- BREADCRUMB -->
+	<div  id="breadcrumbs" class=" breadcrumbs-order-app">
+			<div class="breadcrumbsLayout">
+              <div class="breadcrumbsCon ">
+                 <h1 id="mallLogo">
+                  <span class="mlogo">
+                   <a href="" title=""><s></s></a>
+                   </span>
+                  <span class="slogo">
+                 <a href=""></a>
+                 </span>
+                </h1>
+
+                 <div class="breadcrumbs-extra">
+                       <div class="stepbar-box">
+                           <ol class="order-stepbar stepbar-5" >
+                               <li class="step-first" >
+                                   <div class="step-done">
+                                       <div class="step-name" >购物车</div>
+                                       <div class="step-no" ></div>
+                                   </div>
+                               </li>
+                               <li class="" >
+                                   <div class="" >
+                                       <div class="step-name" >提交订单</div>
+                                       <div class="step-no" >2</div>
+                                   </div></li><li class="" >
+                               <div class="" >
+                                   <div class="step-name" >付款</div>
+                                   <div class="step-no" >3</div>
+                               </div></li>
+                               <li class="" >
+                                   <div class="" >
+                                       <div class="step-name" >确认收货</div>
+                                       <div class="step-no" >4</div>
+                                   </div>
+                               </li>
+                               <li class="step-last" >
+                                   <div class="" >
+                                       <div class="step-name" >评价</div>
+                                       <div class="step-no" >5</div>
+                                   </div>
+                               </li>
+                           </ol>
+                       </div>
+                 </div>
+             </div>
+            </div>
+		</div>
+	<!-- // BREADCRUMB -->
+    <!-- SITE MAIN CONTENT -->
+	<div class="container">
+         <div style="display: block;margin-bottom: 20px;height: auto;overflow: auto">
+             <table id="tab" class="tbl-cart">
+                    <thead class="order-item">
+                        <tr class="carttr">
+                            <th  id="all_select" style="width: 10px;"><input type="checkbox" name="all" checked="1" >全选</th>
+                            <th style="width: 50%;">商品名称</th>
+                            <th style="width: 15%;">单价</th>
+                            <th style="width: 10%;">数量</th>
+                            <th class="hidden-xs" style="width: 15%;">金额</th>
+                            <th class="hidden-xs" style="width: 5%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb" class="order-item">
+                        <tr class="hide empty-cart">
+                            <td colspan="5">
+                                购物车是空的，查询 <a href="/">商品</a>.
+                            </td>
+                        </tr>
+
+                        {% for item in cart_products %}
+                              {% with product=item.products %}
+                                <tr>
+                                    <td ><input type="checkbox" data-id="{{item.products.id}}"name="isselect" style=" margin-left: 10px;" class="isselect" checked="1"   onclick="userCheck(this)" ></td>
+                                    <td>
+                                        <a class="entry-thumbnail" href="{{ product.get_absolute_url }}" data-toggle="lightbox">
+                                            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" alt="" />
+                                        </a>
+                                        <a class="entry-title" href="{{ product.get_absolute_url }}"  style="margin-left: 10px; width: 450px;">{{ item.products.name }}</a>
+                                    </td>
+                                    <td class="unit-price">{{ item.products.saleprice }}</td>
+                                    <td>
+                                            <a href="javascript:;" class="add fl">+</a>
+                                            <input type="text" class="products_count fl" value="{{ item.products_count  }}" style="padding-left: 10px">
+                                            <a href="javascript:;" class="minus fl">-</a>
+                                    </td>
+                                    <td class="row-total">{{ item.get_total_price}}</td>
+                                    <td class="hidden-xs">
+                                        <form  action="{% url "cart_delete"  %}?id={{item.id}}" method="post">
+                                          {% csrf_token %}
+                                          <input type="submit"  value="×">
+                                     </form>
+                                    </td>
+                                </tr>
+                              {% endwith %}
+                         {% endfor %}
+                    </tbody>
+                </table>
+             <div class="shopcart-total pull-right clearfix">
+                <div class="cart-subtotal text-xs m-b-sm clearfix">
+                    <span class="pull-left">小计:</span>
+
+                    <span id="gettotalprice"  class="pull-right" data-amount="">（元）</span>
+                </div>
+
+                <div class="text-center">
+                      <form action="{% url "order_create" %}" method="get">
+                              {% csrf_token %}
+                         <input type="hidden" id="product_ids" name="product_ids" value="">
+                         <input type="submit" class="btn btn-round btn-default uppercase" value="结算">
+                      </form>
+                </div>
+
+            </div>
+         </div>
+        <!--推荐商品列表-->
+        <!-- PRODUCT LAYOUT -->
+		<div class="products-layout grid m-t-b "   >
+            <div class="mt_recommended"><span >商品推荐</span>    </div>
+			{% for product in recommended_products %}
+                  <div class="mix-item isotope-item" >
+						 <div class="product " style="visibility: visible; opacity: 1; height: 450px">
+								<div class="entry-media ">
+											<a href="{% url 'product_detail'%}?productid={{ product.id}}" >
+                                                <img src="{{ product.largeimage.url }}" data-src="{{ product.largeimage.url }}" alt="" class="listimg thumb" />
+                                             </a>
+
+										</div>
+								<div class="entry-main">
+											<h5 class="entry-title">
+												<a href=" {% url 'product_detail'%}?productid={{ product.id}}">{{ product.name }}</a>
+											</h5>
+											<div class="entry-description ">
+												<p>    月销量：{{ product.salenum }}    |   评价: {{ product.commentnum }}</p>
+											</div>
+
+								</div>
+                               <div class="tb-btn-add" style="margin-left: 50px">
+                                    <a class="J_LinkAdd  add-cart "  data-product-id={{ product.id }} title="加入购物车"  >
+                                        <i class="tb-iconfont">ŭ</i>加入购物车
+                                    </a>
+                               </div>
+
+						</div>
+                  </div>
+            {% endfor %}
+
+
+		</div>
+		<!-- // PRODUCT LAYOUT -->
+    </div>
+
+ <script >
+     $("#id_quantity").change(function(){
+         var quantity = $(".products_count").val();
+         var price = $(".unit-price").text();
+         var totalprice = Number(quantity)*Number(price)
+         $(".row-total").html(totalprice);
+         $("#frmcartadd").submit();
+    });
+      // 刷新购物车信息
+    function gettotal() {
+            total_amount = 0;
+            product_ids = [];
+            $('input[name="isselect"]:checked').each(function () {
+                    //var row_total = $('.row-total').text();
+                var id = $(this).data('id');
+                product_ids.push(id);
+                $('#product_ids').val(product_ids);
+                var row_total = $(this).parent().siblings('.row-total').text();
+                total_amount+=Number(row_total);
+            })
+            $("#gettotalprice").html(total_amount.toFixed(2));
+            return false;
+       }
+       gettotal();
+     $(function () {
+        //全选,设置chheckbox name='all' tbody id=tb
+        $("input[name=all]").click(function () {
+            if (this.checked) {
+                $("#tb :checkbox").prop("checked", true);
+            } else {
+                $("#tb :checkbox").prop("checked", false);
+            }
+            gettotal();
+            });
+     });
+        //单选 设置name=id
+    function userCheck(ths) {
+            if (ths.checked == false) {
+                $("input[name=all]:checkbox").prop('checked', false);
+            }
+            else {
+                var count = $("input[name='isselect']:checkbox:checked").length;
+                if (count == $("input[name='isselect']:checkbox").length) {
+                    $("input[name=all]:checkbox").prop("checked", true);
+                }
+            }
+             gettotal();
+        }
+
+        // 商品数量加一
+    $('.add').each(function (i, e) {
+            $(e).click(function () {
+                  $(e).next().val(parseInt($(e).next().val()) + 1);
+                  //var price = $(".unit-price").text();
+                  var price = $(this).parent().siblings('.unit-price').text();
+                  //var quantity = $(".products_count").val();
+                  var quantity = $(this).siblings('.products_count').val();
+                  var totalprice = Number(quantity)*Number(price)
+                  //$(".row-total").html(totalprice);
+                  $(this).parent().siblings(".row-total").html(totalprice);
+                  gettotal();
+            });
+        });
+        // 商品数量减一
+    $('.minus').each(function (i, e) {
+            $(e).click(function () {
+                  var price = $(this).parent().siblings('.unit-price').text();
+                  $(e).prev().val(parseInt($(e).prev().val()) - 1);
+                  var quantity = $(this).siblings('.products_count').val();
+                  var totalprice = Number(quantity)*Number(price);
+                  $(this).parent().siblings(".row-total").html(totalprice);
+                  gettotal();
+            });
+        });
+        // 输入框修改商品数量
+    $('.products_count').each(function (i, e) {
+            $(e).blur(function () {
+              var price = $(this).parent().siblings('.unit-price').text();
+              var quantity = parseInt($(e).val());
+              var totalprice = Number(quantity)*Number(price);
+              $(this).parent().siblings(".row-total").html(totalprice);
+              gettotal();
+            });
+    });
+
+ </script>
+{% endblock %}

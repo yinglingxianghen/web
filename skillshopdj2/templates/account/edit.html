@@ -1,0 +1,26 @@
+{% extends 'seckill/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+ <div id="layer_content">
+    <div class="register-box  module-static" style="margin-top: 20px;">
+         <div class="register-title">
+            <span> <a href="{% url 'edit' %}" target='_self'><h1>编辑个人信息</h1></a></span>
+            <span> <a href="{% url 'password_change' %} "target='_self'><h1>修改密码</h1></a></span>
+            <span> <a href="{% url 'orderlist' %} "target='_self'><h1>我的订单</h1></a></span>
+            {% if request.user.is_superuser %}
+                 <span> <a href="{% url 'seckillproduct_list' %} "target='_self'><h1>秒杀商品列表</h1></a></span>
+			{% endif %}
+         </div>
+         <div class="static-form">
+            <form action="{% url 'edit' %}" method="post" enctype="multipart/form-data">
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+                {% csrf_token %}
+                <p><input type="submit" class="submit" value="保存"></p>
+            </form>
+        </div>
+   </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,265 @@
+{% extends "account/base_account.html" %}
+
+{% block title %}我的消息{% endblock %}
+
+{% block content %}
+
+<div class="orderContainer pt20 mb20">
+   <div id="sMenu" class="menuSidebar">
+	  {% include 'account/leftmenu.html' %}
+</div>
+        <div class="pageContent">
+            <div class="mcTitle">
+                <ul class="user_tab1 fl">
+                    <li class="curr">我的评价</li>
+                </ul>
+            </div>
+
+            <!-- =E mcSecrchBar -->
+            <div class="msg_title">{{ msg }}</div>
+			<div class="tabBox_wddd mb20">
+				<div id="comments">
+                    <form class="tb-rate-pt-l" id="commentpost" name="commentpost"  action="{% url "mycomment" %}" method="post">
+                        {% csrf_token %}
+                        <div class="tb-rate-con-tabbed-box">
+                            <div class="tabbed-box-hd">
+                                <h3 class="title" >评价宝贝</h3>
+                                <ul class="help-nav">
+                                        <li class="tb-rate-hover-drop">
+                                        <a href="javascript:;">评价须知 <i class="tb-rate-icf"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tabbed-box-bd">
+                                  <div class="itemlist">
+                                      <ul class="rate-list">
+                                         <li data-id="" class="rate-box" >
+                                            {% for item in orders%}
+                                                <div>
+                                                    <input type="hidden" name="order_id" value="{{ item.order.id }}">
+
+                                                </div>
+                                                <div class="item-rate-info" data-spm="" style="margin-top: 20px">
+                                                    <div class="item-detail">
+                                                        <a href="" target="_blank" class="item-d-img" >
+                                                               <img src="{{ item.product.image.url }}"style="width: 100px;height: 100px" >
+                                                        </a>
+                                                        <div class="item-title" style="margin-top: 20px;">
+                                                            <a href="{% url 'product_detail'%}?productid={{ item.product.id}}" target="_blank" title="">
+                                                                {{item.product.name }}</a>
+                                                            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                                        </div>
+                                                    </div>
+                                              </div>
+                                                <div class="item-rate-main">
+                                                      <div class="item-rate-act">
+                                                        <div class="rate-control">
+                                                            <ul>
+                                                                <li class="good">
+                                                                    <label for="">
+                                                                        <input type="radio" class="good-rate" id="" name="is_good" value="1">
+                                                                        <i class="tb-rate-ico ico-good" title="好评"></i>
+                                                                    </label>
+                                                                </li>
+                                                                <li class="normal">
+                                                                    <label for="">
+                                                                        <input type="radio" class="noraml-rate" id="" name="is_good" value="0">
+                                                                        <i class="tb-rate-ico ico-neutral" title="中评"></i>
+                                                                    </label>
+                                                                </li>
+                                                                <li class="bad">
+                                                                    <label for="">
+                                                                        <input type="radio" class="bad-rate" id="" name="is_good" value="-1">
+                                                                        <i class="tb-rate-ico ico-bad" title="差评"></i>
+                                                                    </label>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                      <div class="rate-msg-box">
+                                                           <div class="bd">
+                                                            <div class="textinput">
+                                                                <textarea id="txtcontent"name="content" maxlength=""  class="rate-msg"></textarea>
+                                                                <div class="text-counter"><strong class="r-t-counter">500</strong>字</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ft">
+
+                                                          <div class="J_photo_uploader photo-uploader">
+                                                            <a class="J_btn upload-btn btn-chrome" data-auth="{&quot;max&quot;:[5,&quot;最多允许上传五张图片！&quot;],&quot;maxSize&quot;:[5000, &quot;文件大小为{size}，文件太大！&quot;],&quot;allowExts&quot;:[{&quot;desc&quot;:&quot;JPG,JPEG,PNG,GIF,BMP&quot;, &quot;ext&quot;:&quot;*.jpg;*.jpeg;*.png;*.gif;*.bmp&quot;},&quot;文件格式错误！&quot;]}">
+                                                                <span class="tb-rate-ico-bg ico-img">晒照片</span><div class="file-input-wrapper" style="overflow: hidden;">
+                                                                <input type="file" name="picture" hidefocus="true" class="file-input">
+                                                            </div>
+                                                                <input type="hidden" id="" name="" value=""></a>
+                                                                <ul class="J_queue upload-queue"></ul>
+                                                               <span class="upload-msg">限5张</span>
+                                                            </div>
+                                                          <div class="share-box">
+                                                              <input type="hidden" name="" value="false">
+                                                                <label  class="checked">
+                                                                    <input type="radio" name="is_showname" value="0"  class="privacy-control" checked=""> 公开
+                                                                </label>
+                                                                <label >
+                                                                    <input type="radio" name="is_showname" value="1"  class="privacy-control"> 匿名
+                                                                </label>
+                                                          </div>
+                                                        </div>
+                                                       </div>
+                                                   </div>
+                                            {% endfor%}
+                                          </li>
+                                      </ul>
+                                      <div class="rate-tag-box pl30 mt20 rate-box">
+                                            <div class="rate-tag-list  " >
+                                                <span class="tag-title"> 标签</span>
+                                                <div class="rate-tag-inner">
+                                                  {% for tag in tag_list %}
+                                                     <span class="tag-posi" id="{{ tag.id}}">{{ tag.name}}</span>
+                                                  {% endfor%}
+                                                  <input type="hidden" id="select_tag" name="select_tag" value="">
+                                                  <span style="display:none;" class="tips" id="tags_tips">最多能打4个标签哦~</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                      <div class="dsr-box">
+                                           <h2 class="dsr-title">
+                                               <span>店铺动态评分</span>
+                                            </h2>
+                                           <div class="goods-comm">
+                                               <div class="goods-comm-stars ">
+                                                <span class="star_l">宝贝与描述相符：</span>
+                                                <div id="rate-comm-1" class="rate-comm">
+                                                    <ul class="rater-star" style="background-image: url(/static/img/stars.jpg); height: 24px; width: 120px;">
+                                                        <li class="rater-star-item-current rater-star-full" style="background-image: url(/static/img/stars.jpg); height: 24px; width: 120px; z-index: 6; display: list-item;"></li>
+                                                        <li class="rater-star-item" style="height: 24px; width: 24px; z-index: 5; background-image: url(/static/img/stars.jpg);">
+                                                            <div class="popinfo" style="left: 0px; display: none;">
+                                                                <div class="info-box">1分&nbsp;很不满意<div>商品样式和质量都非常差，太令人失望了！</div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="rater-star-item" style="height: 24px; width: 48px; z-index: 4; background-image: url(/static/img/stars.jpg);">
+                                                            <div class="popinfo" style="left: 24px; display: none;">
+                                                                <div class="info-box">2分&nbsp;不满意<div>商品样式和质量不好，不能满足要求。</div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="rater-star-item" style="height: 24px; width: 72px; z-index: 3; background-image: url(/static/img/stars.jpg);">
+                                                            <div class="popinfo" style="left: 48px; display: none;">
+                                                                <div class="info-box">3分&nbsp;一般<div>商品样式和质量感觉一般。</div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="rater-star-item" style="height: 24px; width: 96px; z-index: 2; background-image: url(/static/img/stars.jpg);">
+                                                            <div class="popinfo" style="left: 72px; display: none;">
+                                                                <div class="info-box">4分&nbsp;满意<div>商品样式和质量都比较满意，符合我的期望。</div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="rater-star-item" style="height: 24px; width: 120px; z-index: 1; background-image: url(/static/img/stars.jpg); cursor: pointer; position: absolute; left: 0px; top: 0px;">
+                                                            <div class="popinfo" style="left: 96px; display: none;">
+                                                                <div class="info-box">5分&nbsp;非常满意<div>我很喜欢！商品样式和质量都很满意，太棒了！</div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                           </div>
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submitbox">
+                            <button type="submit" class="J_submit_rate tb-rate-btn type-primary wide-xxl" >发表评价</button>
+                        </div>
+                    </form>
+
+	            </div>
+            </div>
+
+        </div>
+
+    </div>
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/comment.js"></script>
+<script type="text/javascript">
+    function undisplayform(){
+        $('commentsaveForm').css('display','none');
+    }
+
+    $(".rate-tag-inner span").click(function(){
+	    var obj = $(this);
+	    if (obj.hasClass('select')) {
+	    	$('#tags_tips').hide();
+	        obj.removeClass('select');
+	    } else {
+	    	if ($(".rate-tag-inner").find(".select").length >= 4) {
+	    		$('#tags_tips').show();
+	    		return false;
+	    	}
+	    	obj.addClass('select');
+	    }
+	});
+    $(".J_submit_rate").click(function() {
+        var $obj = $(this);
+
+        var is_good = $(":input[name='is_good'][checked='checked']").val();
+
+        if ($obj.attr("disabled") == "1") {
+            return false;
+        }
+
+
+        var comment_text = $("#txtcontent").val();
+        if (comment_text.length > 500) {
+            alert('请把评价字数控制在1-500字以内');
+            return false;
+        }
+
+
+        var tag_list = new Array();
+        $(".rate-tag-inner").find(".select").each(function () {
+            tag_list.push($(this).attr('id'));
+        });
+       $("#select_tag").val(tag_list);
+
+        if (tag_list.length > 4) {
+            $('#tags_tips').show();
+            return false;
+        }
+        $('#commentpost').submit();
+    })
+
+    $(function(){
+        var wjx_none = '☆'; // 空心五角星
+        var wjx_sel = '★'; // 实心五角星
+
+        //鼠标移进变实星
+        $(".comment li").on("mouseover",function(){
+            $(this).text(wjx_sel).prevAll("li").
+            text(wjx_sel).end().nextAll().text(wjx_none);
+        });
+
+        //鼠标移出变空星
+        $(".comment li").on("mouseout",function(){
+           if($("li.current").length === 0){
+                $(".comment li").text(wjx_none);
+           }else{
+               $("li .current").text(wjx_sel).prevAll().text(wjx_sel).end().nextAll().text(wjx_none);
+           }
+        });
+
+        //鼠标点击保持当前状态
+        $(".comment li").on("click",function(){
+            $(this).attr("class","current").siblings().removeClass("current");
+        });
+
+    });
+
+
+</script>
+
+{% endblock %}

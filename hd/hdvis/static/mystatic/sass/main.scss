@@ -1,0 +1,195 @@
+@import "common";
+.head {
+    &-title {
+        background-color: #000;
+        &>div {
+            margin: 0 auto;
+            max-width: $maxW;
+            color: #fff;
+            padding: pxTorem(20px) pxTorem(40px);
+            font-size: pxTorem(26px);
+        }
+    }
+    &-lista {
+        margin-bottom: pxTorem(10px);
+        border-bottom: 1px solid #dfdfdf;
+        &>div {
+            max-width: $maxW;
+            margin: 0 auto;
+            a {
+                display: inline-block;
+                font-size: pxTorem(16px);
+                text-align: center;
+                padding: pxTorem(10px) pxTorem(30px);
+                margin-left: -5px;
+                color: #999;
+                border-bottom: 2px solid #fff;
+                border-right: 1px solid #dfdfdf;
+                &:first-child {
+                    border-left: 1px solid #dfdfdf;
+                    margin-left: 0 !important;
+                }
+                &.active {
+                    color: #111;
+                    border-bottom-color: red;
+                }
+            }
+            .icon {
+                font-size: pxTorem(30px);
+            }
+        }
+    }
+}
+
+.main {
+    max-width: $maxW;
+    margin: 0 auto;
+    position: relative; // margin: pxTorem(20px);
+    // padding: pxTorem(20px);
+    box-sizing: border-box;
+    margin-top: pxTorem(30px);
+    &-l {
+        width: 20%;
+        display: inline-block;
+        border: 1px solid $pri_b_color; // padding: 10px;
+        min-height: pxTorem(300px);
+        &-text {
+            padding: 10px;
+            border-bottom: 1px solid #dfdfdf;
+        }
+        &-jz {
+            margin-top: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #dfdfdf;
+            p {
+                margin-top: 15px;
+                font-size: pxTorem(16px);
+                color:#999;
+                label{
+                    margin-bottom: 5px;
+                    display: inline-block;
+                }
+                input{
+                    width: 100%;
+                }
+            }
+            h5 {
+                margin: 0;
+                color: #333;
+                font-weight: 100;
+            }
+            .jz-options {
+                margin-bottom: 20px;
+                a {
+                    color: #999;
+                    font-size: pxTorem(14px);
+                    padding: 5px 20px;
+                    border: 1px solid #dfdfdf;
+                    display: inline-block;
+                    margin-top: 5px;
+                    border-radius: 2px;
+                    &.active {
+                        color: red;
+                        border: 1px solid red;
+                    }
+                }
+            }
+        }
+        button {
+            font-size: pxTorem(14px);
+        }
+    }
+    &-r {
+        margin-left: 10px;
+        width: 75%; // padding: 10px;
+        display: inline-block; // position: absolute;
+        // border: 1px solid green;
+        &-item {
+            padding: 0 10px 10px 10px; // border: 1px solid $pri_b_color;
+            margin-bottom: pxTorem(20px);
+        }
+        &-i-chart {
+            padding: 10px;
+            border: 1px solid $pri_b_color;
+            border-top: none;
+        }
+    }
+    &-ris-tip {
+        border: 1px solid $pri_b_color;
+        position: relative;
+        padding: 10px;
+        &>div {
+            position: relative;
+            i {
+                position: absolute;
+                right: pxTorem(10px);
+                top: 0;
+                bottom: 0;
+                height: 16px;
+                margin: auto;
+            }
+        }
+    }
+    .mris-options {
+        display: none;
+        font-size: pxTorem(12px);
+        margin-top: 10px;
+        a {
+            padding: 5px 10px;
+            border: 1px solid #dfdfdf;
+            display: inline-block;
+            margin-top: 5px;
+            border-radius: 2px;
+            color: #999;
+            &.active {
+                border-color: red;
+                color: red;
+            }
+        }
+        p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            color: #999;
+            input {
+                padding: 5px;
+                border-radius: 2px;
+                border: 1px solid #dfdfdf;
+            }
+        }
+    }
+}
+
+.yes-btn {
+    width: 100%;
+    margin: 10px 0;
+    text-align: right;
+    button {
+        padding: 5px 15px;
+        background-color: #006cee;
+        color: #fff;
+        border: none;
+        margin-right: 10px;
+        border-radius: 2px;
+    }
+}
+
+.reset-btn {
+    background-color: #dfdfdf !important;
+    color: #999 !important;
+    border-radius: 2px;
+}
+
+.Wdate {
+    border: #999 1px solid;
+    height: 20px;
+    background: #fff url(../images/datePicker.gif) no-repeat right;
+}
+
+.Wdate::-ms-clear {
+    display: none;
+}
+
+.WdateFmtErr {
+    font-weight: bold;
+    color: red;
+}

@@ -1,0 +1,74 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}商品搜索结果列表{% endblock title %}
+{% block content %}
+
+
+	<div class="wbox">
+         <div class="breadcrumb">
+            <a href="#">{{ query }}</a>
+            <span>></span>
+            <a href="#">搜索结果如下：</a>
+        </div>
+        <ul class="goods_type_list clearfix">
+            {# 遍历显示搜索的商品的信息 #}
+            {% for product in page.object_list %}
+                <li class="product-li mix-item" >
+                      <div class="pic">
+                            <a  href="{% url 'product_detail'%}?productid={{ product.object.id}}" target="_blank">
+                                <img class="gload-bgimg lazyloading"  src="{{ product.object.image.url}}"  >
+                            </a>
+                            <div class="hover">
+                                <a href="{{ product.object.get_absolute_url }}" class="entry-url"></a>
+                                <ul class="icons unstyled">
+                                    <li>
+                                        <a href="{{ product.object.image.url }}" class="circle" data-toggle="lightbox"><i class="iconfont-search"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="circle add-cart" data-product-id={{ product.object.id }}>
+                                            <i class="iconfont-shopping-cart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                      </div>
+                      <div class="txt">
+                            <a  href="{% url 'product_detail'%}?productid={{ product.object.id}}" target="_blank" class="name" >
+                                {{ product.object.name}}</a>
+
+                            <div class="entry-description ">
+                                   <p>    月销量：{{ product.object.salenum }}    |   评价: {{ product.object.commentnum }}</p>
+                            </div>
+                      </div>
+
+                      <div class="proaction f-cb act">
+                            <div class="u-price w162">¥<b>{{ product.object.saleprice }}<!--Regular if224--></b>
+                                <span class="marketprice">¥<del>{{ product.object.price }}</del></span></div>
+                            <div class="w70">
+                                             <form action="{% url "cart_add"  %}?product_id={{ product.object.id}}" method="post">
+                                               <input id="product_id" name="product_id" value="{{ product.object.id }}" type="hidden">
+                                               <input id="quantity" name="quantity" value="1"  type="hidden">
+                                              {% csrf_token %}
+                                              <input type="submit" class="u-maction w70"  value="立即购买">
+                                            </form>
+                                        </div>
+                      </div>
+
+                  </li>
+
+            {% endfor %}
+        </ul>
+       {% if page.num > 1  %}
+        <div class="pagenation">
+                {% if page.has_previous  %}
+				<a href="/search?q={{ query }}&page={{ page.previous_page_number }}">&lt;上一页</a>
+                {% endif %}
+                {% for pindex in paginator.page_range %}
+				<a href="/search?q={{ query }}&page={{ pindex }}" {% if pindex == page.number %}class="active"{% endif %}>{{ pindex }}</a>
+				{% endfor %}
+                {% if page.has_next %}
+				<a href="/search?q={{ query }}&page={{ page.next_page_number }}">下一页&gt;</a>
+                {% endif %}
+			</div>
+	   {% endif %}
+    </div>
+{% endblock content %}

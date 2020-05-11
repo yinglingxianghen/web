@@ -1,0 +1,80 @@
+html { font-size: 20px; }
+
+html, body { height: 100%; }
+
+a { text-decoration: none; }
+
+p { margin: 0; }
+
+.fl { float: left; }
+
+.fr { float: right; }
+
+.clearfix { overflow: auto; _height: 1%; }
+
+.head-title { background-color: #000; }
+
+.head-title > div { margin: 0 auto; max-width: 60rem; color: #fff; padding: 1rem 2rem; font-size: 1.3rem; }
+
+.head-lista { margin-bottom: 0.5rem; border-bottom: 1px solid #dfdfdf; }
+
+.head-lista > div { max-width: 60rem; margin: 0 auto; }
+
+.head-lista > div a { display: inline-block; font-size: 0.8rem; text-align: center; padding: 0.5rem 1.5rem; margin-left: -5px; color: #999; border-bottom: 2px solid #fff; border-right: 1px solid #dfdfdf; }
+
+.head-lista > div a:first-child { border-left: 1px solid #dfdfdf; margin-left: 0 !important; }
+
+.head-lista > div a.active { color: #111; border-bottom-color: red; }
+
+.head-lista > div .icon { font-size: 1.5rem; }
+
+.main { max-width: 60rem; margin: 0 auto; position: relative; -webkit-box-sizing: border-box; box-sizing: border-box; margin-top: 1.5rem; }
+
+.main-l { width: 20%; display: inline-block; border: 1px solid #dfdfdf; min-height: 15rem; }
+
+.main-l-text { padding: 10px; border-bottom: 1px solid #dfdfdf; }
+
+.main-l-jz { margin-top: 10px; padding: 10px; border-bottom: 1px solid #dfdfdf; }
+
+.main-l-jz > p { font-size: 0.5rem; }
+
+.main-l-jz h5 { margin: 0; color: #333; font-weight: 100; }
+
+.main-l-jz .jz-options { margin-bottom: 20px; }
+
+.main-l-jz .jz-options a { color: #999; font-size: 0.7rem; padding: 5px 20px; border: 1px solid #dfdfdf; display: inline-block; margin-top: 5px; -webkit-border-radius: 2px; border-radius: 2px; }
+
+.main-l-jz .jz-options a.active { color: red; border: 1px solid red; }
+
+.main-l button { font-size: 0.7rem; }
+
+.main-r { margin-left: 10px; width: 75%; display: inline-block; }
+
+.main-r-item { padding: 0 10px 10px 10px; margin-bottom: 1rem; }
+
+.main-r-i-chart { padding: 10px; border: 1px solid #dfdfdf; border-top: none; }
+
+.main-ris-tip { border: 1px solid #dfdfdf; position: relative; padding: 10px; }
+
+.main-ris-tip > div { position: relative; }
+
+.main-ris-tip > div i { position: absolute; right: 0.5rem; top: 0; bottom: 0; height: 16px; margin: auto; }
+
+.main .mris-options { display: none; font-size: 0.6rem; margin-top: 10px; }
+
+.main .mris-options a { padding: 5px 10px; border: 1px solid #dfdfdf; display: inline-block; margin-top: 5px; -webkit-border-radius: 2px; border-radius: 2px; color: #999; }
+
+.main .mris-options a.active { border-color: red; color: red; }
+
+.main .mris-options p { margin-top: 5px; margin-bottom: 5px; color: #999; }
+
+.main .mris-options p input { padding: 5px; -webkit-border-radius: 2px; border-radius: 2px; border: 1px solid #dfdfdf; }
+
+.yes-btn { width: 100%; margin: 10px 0; text-align: right; }
+
+.yes-btn button { padding: 5px 15px; background-color: #006cee; color: #fff; border: none; margin-right: 10px; -webkit-border-radius: 2px; border-radius: 2px; }
+
+.reset-btn { background-color: #dfdfdf !important; color: #999 !important; -webkit-border-radius: 2px; border-radius: 2px; }
+ 
+
+ /*# sourceMappingURL= main.css.map */

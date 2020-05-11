@@ -1,0 +1,71 @@
+{% extends "shop/base.html" %}
+
+{% load static %}
+
+{% block title %}
+    首页
+{% endblock %}
+
+{% block content %}
+     <script src="{% static 'js/slide.js' %}"></script>
+	<!-- HOMEPAGE SLIDER -->
+	<div class="wbox myslide">
+		<div  class="h300">
+			<ul id="slidelistphone">
+                <li style="background: rgb(26, 20, 82) url(&quot;/static/img/phonebn.jpg&quot;) no-repeat scroll center top; z-index: 39; display: block;">
+                </li>
+            </ul>
+
+		</div>
+	</div>
+	<!-- // HOMEPAGE SLIDER -->
+  <div class="list-product">
+    <div class="preferent wbox " >
+        <h2 class="model-tit preferent-tit">
+            淘实惠
+        </h2>
+        <ul class="edit-mode clearfix product-ul" >
+           {% for product in goodbuy_products %}
+            <li class="product-li">
+                <div class="pic">
+                    <a  href="{% url 'product_detail'%}?productid={{ product.id}}" target="_blank">
+                        <img class="gload-bgimg lazyloading"  src="{{ product.image.url}}"  >
+                    </a>
+                </div>
+                <div class="txt">
+                    <div class="price" >¥<i class="minPrice">{{ product.saleprice}}</i></div>
+                    <a  href="{% url 'product_detail'%}?productid={{ product.id}}" target="_blank" class="name" >
+                        {{ product.name}}</a>
+                </div>
+                <form action="{% url "cart_add" %}?product_id={{product.id}}" method="post">
+                   <input id="product_id" name="product_id" value="{{ product.id }}" type="hidden">
+                   <input id="quantity" name="quantity" value="1"  type="hidden">
+                  {% csrf_token %}
+                  <input type="submit" class="buy-btn"  value="立即购买">
+                </form>
+
+            </li>
+           {% endfor%}
+        </ul>
+    </div>
+    <div class="wbox floor_bottom floor-current" >
+         <h2 class="floor_title edit-mode" >
+             <img class="lazyloading" src="/static/img/T16CVTBbET1RCvBVdK.png"  width="1200">
+         </h2>
+         <ul class="edit-mode">
+                <li><a  href="" target="_blank">
+                    <img class="lazyloading" src="/static/img/T1eexTBmDb1RCvBVdK.jpeg"   height="200" width="288"></a>
+                </li>
+                <li><a  href="" target="_blank">
+                    <img class="lazyloading" src="/static/img/T1fmbTBTWT1RCvBVdK.jpeg"   height="200" width="288"></a>
+                </li>
+                <li><a  href="" target="_blank">
+                    <img class="lazyloading" src="/static/img/T1oc_vBTbj1RCvBVdK.jpg"   height="200" width="288"></a>
+                </li>
+                <li><a href="" target="_blank">
+                    <img class="lazyloading" src="/static/img/T1XUKvBv_Q1RCvBVdK.jpg"  height="200" width="288"></a>
+                </li>
+            </ul>
+        </div>
+  </div>
+{% endblock %}

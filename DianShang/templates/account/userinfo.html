@@ -1,0 +1,331 @@
+{% extends "account/base_account.html" %}
+
+{% block title %}编辑地址信息{% endblock %}
+
+{% block content %}
+<style type="text/css">
+.piccontainer {
+	width: 580px;
+	margin: 10px auto 0 auto;
+	position: relative;
+	font-family: 微软雅黑;
+}
+.piccontainer p {
+	line-height: 12px;
+	line-height: 0px;
+    text-align: center;
+	color: #bbb;
+    margin-left: -60px;
+}
+.action {
+	width: 320px;
+	height: 30px;
+	margin: 10px 0;
+}
+.cropped {
+	position: absolute;
+	right:60px;
+	top: 0px;
+	width: 180px;
+	border: 1px #ddd solid;
+	height: 270px;
+	padding: 4px;
+	box-shadow: 0px 0px 12px #ddd;
+	text-align: center;
+}
+.imageBox {
+	position: relative;
+	height: 240px;
+	width: 320px;
+	border: 1px solid #aaa;
+	background: #fff;
+	overflow: hidden;
+	background-repeat: no-repeat;
+	cursor: move;
+	box-shadow: 4px 4px 12px #B0B0B0;
+}
+.imageBox .thumbBox {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 200px;
+	height: 200px;
+	margin-top: -100px;
+	margin-left: -100px;
+	box-sizing: border-box;
+	border: 1px solid rgb(102, 102, 102);
+	box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+	background: none repeat scroll 0% 0% transparent;
+}
+.imageBox .spinner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	text-align: center;
+	line-height: 240px;
+	background: rgba(0,0,0,0.7);
+}
+.Btnsty_peyton{ float: right;
+  padding: 1px 10px;
+  width: 60px;
+  display: inline-block;
+  margin-bottom: 1px;
+  height: 30px;
+  line-height: 30px;
+  font: 13px/13px arial,sans-serif;
+  color: #FFFFFF;
+  margin-left:2px;
+  background-color: #f38e81;
+  border-radius: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px #B0B0B0;
+  border: 0px #fff solid;}
+/*选择文件上传*/
+.new-contentarea {
+	width: 105px;
+	overflow:hidden;
+	margin: 0 auto;
+	position:relative;float:left;
+}
+.new-contentarea label {
+	width:100%;
+	height:100%;
+	display:block;
+}
+.new-contentarea input[type=file] {
+	width:188px;
+	height:60px;
+	background:#333;
+	margin: 0 auto;
+	position:absolute;
+	right:50%;
+	margin-right:-94px;
+	top:0;
+	right/*\**/:0px\9;
+	margin-right/*\**/:0px\9;
+	width/*\**/:10px\9;
+	opacity:0;
+	filter:alpha(opacity=0);
+	z-index:2;
+}
+a.upload-img{
+	width:85px;
+	display: inline-block;
+	margin-bottom: 2px;
+	height:30px;
+	line-height: 30px;
+	font-size: 28px;
+	color: #FFFFFF;
+	background-color: #f38e81;
+	border-radius: 3px;
+	text-decoration:none;
+	cursor:pointer;
+	border: 0px #fff solid;
+	box-shadow: 0px 0px 5px #B0B0B0;
+}
+
+a.upload-img:hover{
+	background-color: #ec7e70;
+}
+
+.tc{text-align:center;}
+.red{
+    color: #ff0000;
+}
+</style>
+
+<body>
+<div class="orderContainer pt20 mb20">
+
+        <div id="sMenu" class="menuSidebar">
+        <!-- =E smenu 侧边导航 -->
+        {% include 'account/leftmenu.html' %}
+        </div>
+        <div class="pageContent">
+           <div id="profile" class="sns-config">
+               <div class="mcTitle">
+                    <ul class="user_tab1 fl">
+                        <li class="curr">个人资料</li>
+                    </ul>
+                </div>
+
+              <div class="sns-box box-detail">
+               <div class="bd">
+                      <div class="sns-nf" id="divuserinfo" style="display: block">
+                            <form id="InfoForm" name="InfoForm" method="post" action="{% url "updateuserinfo" %}" class="infoForm"  enctype="multipart/form-data">
+                             <input type="hidden" id="csrfmiddlewaretoken" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                             <div id="main-profile" class="parts">
+                                 <p>
+                                    <label>当前头像：</label>
+                                     <img  align="absmiddle" style="width:64px;margin-top:6px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;"  src="{{userprofile.photo}}" >
+                                     <span >
+                                         <input type="button"  id="showpic"   style="height: 18px;text-align:left;font: 13px/13px arial,sans-serif;vertical-align: bottom;" value="更换"></span>
+                                         <div id="piccontainer" class="piccontainer" style="display: none;" >
+                                          <div class="imageBox"   style=" background-size: 405px 405px; background-position: -2.5px -2.5px; background-repeat: no-repeat;">
+                                            <div class="thumbBox"></div>
+                                            <div style="display: none;" class="spinner">Loading...</div>
+                                          </div>
+                                          <div class="action">
+                                           <!-- <input type="file" id="file" style=" width: 200px">-->
+                                            <div class="new-contentarea tc">
+                                                <a class="upload-img" href="javascript:void(0)">
+                                                    <label style="margin-top: 10px;color: #fff;font: 13px/13px arial,sans-serif;"  for="upload-file">上传图像</label>
+                                                </a>
+                                                <input type="file" id="upload-file" name="upload-file" class="">
+                                            </div>
+                                            <input type="button" value="裁切" style="padding: 1px 10px;" class="Btnsty_peyton" id="btnCrop">
+                                            <input type="button" value="+" style="padding: 1px 10px;" class="Btnsty_peyton" id="btnZoomIn">
+                                            <input type="button" value="-" style="padding: 1px 10px;" class="Btnsty_peyton" id="btnZoomOut">
+                                      </div>
+                                      <div class="cropped"></div>
+                                      <div  style="color:#999;">操作指引：上传头像文件之后，可用鼠标拖动头像，也可放大（按+）和缩小头像（按—），使头像合适部位置于小方框内，按裁切，可得到64px*64px和128px*128px二个头像</div>
+                             </div>
+                        </p>
+
+                         <p>
+                            <label>真实姓名：</label>
+                                <input id="rname" name="rname" class="f-txt" type="text" value="{{userprofile.user.username}}" style="width: 136px;"  maxlength="8">
+                         </p>
+                        <p>
+                            <label>手机：</label>
+                               <input id="mobilephone" name="mobilephone" class="f-txt" type="text" value="{{userprofile.mobile}}" style="width: 136px;"maxlength="11">
+                        </p>
+                        <p>
+                            <label><span class="red">*</span>邮箱：</label>
+                            <input id="infoemail"   name="infoemail" class="f-txt" type="text" value="{{userprofile.email}}" style="width: 136px;"maxlength="30">
+                         </p>
+                         <p>
+                            <label><span class="red">*</span>出生日期：</label>
+                            <input id="date_of_birth"   name="date_of_birth" class="f-txt" type="text" value="{{userprofile.date_of_birth}}" style="width: 136px;"maxlength="30">
+                         </p>
+
+                        <p>
+                            <label><span class="red">*</span>性别：</label>
+                           {% if  userprofile.gender%}
+                                 {% if  userprofile.gender == 'male'%}
+                                         <input id="gender1" type="radio" name="gender" value="male" checked="checked">&nbsp;男
+                                         <input id="gender2" type="radio" name="gender" value="female" >&nbsp;女
+                                         <input id="gender3" type="radio" name="gender" value="O" >&nbsp;秘密
+                                  {% elif   userprofile.gender == 'female'%}
+                                        <input id="gender1" type="radio" name="gender" value="male" >&nbsp;男
+                                         <input id="gender2" type="radio" name="gender" value="female"  checked="checked">&nbsp;女
+                                         <input id="gender3" type="radio" name="gender" value="O" >&nbsp;秘密
+                                 {% elif   userprofile.gender == 'O'%}
+                                           <input id="gender1" type="radio" name="gender" value="male" >&nbsp;男
+                                         <input id="gender2" type="radio" name="gender" value="female" >&nbsp;女
+                                         <input id="gender3" type="radio" name="gender" value="O" checked="checked">&nbsp;秘密
+                                 {% endif%}
+                             {% else %}
+                                    <input id="gender1" type="radio" name="gender"  value="male" >&nbsp;男
+                                    <input id="gender2" type="radio" name="gender" value="female">&nbsp;女
+                                    <input id="gender3" type="radio" name="gender"  value="O" >&nbsp;秘密
+
+                             {% endif%}
+                         </p>
+
+                        </p>
+
+                    </div>
+                             <div class="act skin-blue">
+                                    <span class="btn n-btn">
+                                        <button type="submit" id="saveBtn" >保存</button>
+                                        <div style="width:1px; height:1px; overflow:hidden; ">
+                                            <input type="submit">
+                                        </div>
+                                    </span>
+                               </div>
+
+                            </form>
+                     </div>
+                      <div class="base_info" id="divbase_info" style="display: none">
+                           <form id="base_info" name="base_info" method="post" action="/base_info" class="base_info">
+                           </form>
+                      </div>
+
+               </div>
+            </div>
+           </div>
+        </div>
+
+</div>
+</body>
+
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/cropbox.js"></script>
+<script type="text/javascript">
+//$(window).load(function() {
+$(function() {
+	var options =
+	{
+		thumbBox: '.thumbBox',
+		spinner: '.spinner',
+		imgSrc: '/static/img/avatar.png'
+	}
+	var cropper = $('.imageBox').cropbox(options);
+	$('#upload-file').on('change', function(){
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			options.imgSrc = e.target.result;
+			cropper = $('.imageBox').cropbox(options);
+		}
+		reader.readAsDataURL(this.files[0]);
+
+		this.files = [];
+	})
+	$('#btnCrop').on('click', function(){
+		var img = cropper.getDataURL();
+		$('.cropped').html('');
+		$('.cropped').append('<img  align="absmiddle" style="width:64px;margin-top:6px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;"  src="'+img+'" ><p>64px*64px</p> <input type="hidden" id="64img" name="64img" value="'+img+'" >');
+
+		$('.cropped').append('<img align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;" src="'+img+'" ><p>128px*128px</p> <input type="hidden" id="128img" name="128img" value="'+img+'" >');
+
+	//	$('.cropped').append('&lt;img src="'+img+'" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"&gt;&lt;p&gt;180px*180px&lt;/p&gt;');
+	})
+	$('#btnZoomIn').on('click', function(){
+		cropper.zoomIn();
+	})
+	$('#btnZoomOut').on('click', function(){
+		cropper.zoomOut();
+	})
+
+
+     $("#showpic").on('click', function(){
+         var b=$("#piccontainer").css("display");
+         if(b=="none") {
+              $("#piccontainer").css("display","block");
+         }
+         else
+        {
+              $("#piccontainer").css("display","none");
+        }
+
+        });
+
+     $("#saveBtn").click(function() {
+
+         var email = $("#infoemail").val();
+        if ((email.length <1) || isEmail(name)){
+            alert('请输入正确的邮箱');
+            $('#infoemail').focus();
+            return false;
+        }
+         var gender = $("input:radio[name='gender']:checked").val();
+         if (!gender) {
+            alert('请选择性别');
+            return false;
+        }
+        $('InfoForm').submit();
+     })
+
+     function isEmail(word) {
+            return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(word);
+    };
+
+});
+
+</script>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "shop/base.html" %}
+
+{% block title %}登录{% endblock %}
+
+{% block content %}
+    <div class="login-wrap" style="background-color: #e93854">
+		<div class="w">
+            <div class="login-form">
+                <div id='login' class="login-tab login-tab-l checked">
+                    <a href="javascript:void(0)"  style="outline: 0px none rgb(109, 109, 109);" > 账户登录</a>
+                </div>
+                <div id="register"  class="login-tab login-tab-r">
+                    <a href="javascript:void(0)"  >注册</a>
+                </div>
+                <div class="login-box" style="display: block; visibility: visible;">
+                    <div class="mt tab-h">
+                    </div>
+                    <div class="msg-wrap">
+                        <div class="msg-error hide"><b></b></div>
+                    </div>
+                    <div class="mc">
+                        <div class="form login">
+                            <form id="formlogin" action="{% url "login" %}" method="post" >
+                                 {% csrf_token %}
+                                <input name="pubKey" id="pubKey" value="/+" class="hide" type="hidden">
+                                <div class="item item-fore1">
+                                    <label for="id_username" class="login-label name-label"></label>
+                                    <input id="id_username" class="itxt" name="username" tabindex="1" autocomplete="off" value="" placeholder="邮箱/用户名/已验证手机" type="text">
+                                    <span class="clear-btn" style="display: inline;"></span>
+                                </div>
+
+								<div  class="item item-fore2" >
+									<label class="pwd-label login-label" for="id_password"></label>
+									<input id="id_password" name="password" class="itxt itxt-error" tabindex="2" autocomplete="off" placeholder="密码" type="password">
+									<span class="clear-btn"></span>
+									<span class="capslock" style="display: none;"><b></b>大小写锁定已打开</span>
+								</div>
+
+                            	<div class="item item-fore4">
+									<div class="safe">
+                                        <span></span>
+										<span class="forget-pw-safe">
+											<a href="/uc/links?tag=safe" class="" target="_blank" >忘记密码</a>
+										</span>
+                                 	</div>
+                                </div>
+
+                                <div class="item item-fore5">
+                                    <div class="login-btn">
+                                        <input type="submit" class="btn-img btn-entry" id="loginsubmit" value="登&nbsp;&nbsp;&nbsp;&nbsp;录" >
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="form register" style="display: none">
+                            <form id="formlogin" action="{% url "register" %}" method="post" >
+                                 {% csrf_token %}
+                                <input name="pubKey" id="pubKey" value="/+" class="hide" type="hidden">
+                                <div class="item item-fore1">
+                                    <label for="id_username" class="login-label name-label"></label>
+                                    <input id="id_username" class="itxt" name="username" tabindex="1" autocomplete="off" value="" placeholder="邮箱/用户名/已验证手机" type="text">
+                                    <span class="clear-btn" style="display: inline;"></span>
+                                </div>
+
+								<div  class="item item-fore2" >
+									<label class="pwd-label login-label" for="id_password"></label>
+									<input id="id_password" name="password" class="itxt itxt-error" tabindex="2" autocomplete="off" placeholder="密码" type="password">
+									<span class="clear-btn"></span>
+									<span class="capslock" style="display: none;"><b></b>大小写锁定已打开</span>
+								</div>
+
+                                <div  class="item item-fore3" >
+									<label class="pwd-label login-label" for="id_password"></label>
+									<input id="id_password2" name="password2" class="itxt itxt-error" tabindex="2" autocomplete="off" placeholder="密码" type="password">
+									<span class="clear-btn"></span>
+									<span class="capslock" style="display: none;"><b></b>大小写锁定已打开</span>
+								</div>
+
+                                <div class="item item-fore5">
+                                    <div class="login-btn">
+                                        <input type="submit" class="btn-img btn-entry" id="loginsubmit" value="注&nbsp;&nbsp;&nbsp;&nbsp;册" >
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="login-banner" >
+            <div class="w">
+                <div id="banner-bg"  class="i-inner" style="background: url(/static/img/loginbg.png) 0px 0px no-repeat;background-color: #e93854"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+  //tab信息切换
+     $(".login-tab").bind('click',function(event){
+       var clickedNode = $(this);
+       var showid=$(this).attr("id");
+       $(".login-tab a").removeClass("checked");
+       $(".form").css('display','none');
+       $('.'+showid).css('display','block');
+       clickedNode.addClass("checked");
+    });
+ </script>
+{% endblock %}

@@ -1,0 +1,100 @@
+<div class="shop-top">
+        <div id="shop-top-body" class="wbox">
+            <ul>
+                <li id="shop-entry-link"><a  href="/" target="_blank"><i class="icon-shop-logo"></i>首页</a></li>
+                <li class="shop-spacer"></li>
+                <li id="shop-user" data-load="user" class="" data-open="true">
+                    <div class="public-dropdown" style="height: 0px;">
+                        <div id="user-name">
+                            <i></i>
+                            <div><p class="user-name-login">欢迎来到商城，<a  href="">会员请登录！</a></p></div>
+                       </div>
+                    </div>
+                </li>
+                <li id="loginDiv-link" class="shop-link">
+                     {% if user.is_authenticated %}
+                         <span id="navprofile">
+                             <a href="{% url "updateuserinfo" %}">会员:{{user.username }}
+                                 <span class="face">
+                                 {% if user.profile.photo %}
+                                    <img class="j-nav-myimg" src="{{ user.profile.photo.url }}"  style="">
+                                   {% else %}
+                                      <img class="j-nav-myimg" src="/static/img/avatar.png"  style="">
+                                  {% endif %}
+                                 </span>
+                             </a>
+                         </span>
+                         <span class="mes">消息<em class="num j-nav-msgnum">{{ mymessage_count }}</em></span>
+                         <span id="navlogout"><a href="{% url 'do_logout' %}?next=/">注销</a></span>
+                     {% else %}
+                            <a rel="nofollow" data-code="public01002" href="{% url 'login' %}">登录</a>
+                           <a class="shop-link-register" rel="nofollow" data-code="public01003" href="{% url 'login' %}">注册有礼<i></i></a>
+                     {% endif %}
+               </li>
+            </ul>
+            <ul id="shop-top-right">
+                <li id="shop-myshop" data-load="myshop" class="" data-open="true">
+                    <b><a   href="" target="_blank">我的商城</a><i></i></b>
+
+                </li>
+                <li class="shop-spacer"></li>
+                <li class="shop-link"><a  class="shop-link-ml10" rel="nofollow" href="">
+                     <i class="mui-global-iconfont" >󰅈</i>&nbsp;购物车</a></li>
+                <li id="shop-service" class="drop"  data-open="true">
+                    <b><em class="gm-icon"></em><a   href="" target="_blank">我的收藏</a><i></i></b>
+
+                </li>
+                <li id="shop-sitemap" class="drop" data-type="default" data-load="sitemap" data-open="true">
+                     <b><a  href="" target="_blank">网站导航</a><i></i></b>
+
+                </li>
+                <li class="shop-spacer"></li>
+                <li id="shop-phone" class="drop">
+                    <b><em class="gm-icon"></em><a   href="" target="_blank">手机商城</a><i></i></b>
+                    <div class="public-dropdown">
+                        <a class="shop-qrcode"  href="" target="_blank"></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+</div>
+<div id="shop-head" class="wbox" data-need-slogan-judge="true">
+        <div id="logo">
+            <img alt="" src="/static/img/careeru200.png" height="120" width="120">
+        </div>
+
+        <div id="topSearch" class="topsearch">
+            <div id="topSearchHover" class="searchbox" data-visitor="hover">
+                <form id="searchForm" method="get" action="/search" >
+                    <div id="search-type-dropdown">
+                        <div class="search-type">
+                            <span class="search-type-selected" data-selected="goods">商品</span>
+                            <i></i>
+                        </div>
+                        <ul class="search-type-list" style="display: none;">
+                            <li class="search-type-item" data-selector="goods">商品</li>
+                            <li class="search-type-item" data-selector="shop">店铺</li>
+                            <li class="search-type-item" data-selector="topic">话题</li>
+                            <li class="search-type-item" data-selector="group">圈子</li>
+                        </ul>
+                    </div>
+                    <input id="searchInput" name="q" value="" autocomplete="off" placeholder="小米手机" alt="" type="text">
+                    <button type="submit" class="search-btn" >搜索</button>
+                </form>
+            </div>
+            <div class="hotkeyword" style="display: block;">
+                <a  class="highlight" rel="nofollow" target="_blank" href="">iphone</a>
+                <a   target="_blank" href="">小米8</a>
+                <a  target="_blank" href="">苹果8plus</a>
+                <a  target="_blank" href="">华硕专场</a>
+                <a   target="_blank" href="">9.9元</a>
+                <a  target="_blank" href="">平板电脑</a>
+                <a   target="_blank" href="">童装59元</a>
+                <a  target="_blank" href="">西门子冰箱</a>
+                <a  href="/top10/" target="_blank">商品排行榜</a>
+                <a  href="/keywords/" target="_blank">热门推荐</a>
+            </div>
+
+        </div>
+
+     </div>

@@ -1,0 +1,82 @@
+{% extends "account/base_account.html" %}
+
+{% block title %}我的优惠券{% endblock %}
+
+{% block content %}
+
+<div class="orderContainer pt20 mb20">
+   <div id="sMenu" class="menuSidebar">
+	  {% include 'account/leftmenu.html' %}
+</div>
+        <div class="pageContent">
+            <div class="mcTitle">
+                <ul class="user_tab1 fl">
+                    <li class="curr">我的优惠券</li>
+                </ul>
+            </div>
+
+            <!-- =E mcSecrchBar -->
+
+			<div class="tabBox_wddd mb20">
+				<table cellspacing="0" class="mcTab">
+					<colgroup>
+						<col width="90">
+                        <col width="90">
+                        <col width="300">
+                        <col width="60">
+                        <col width="60">
+
+					</colgroup>
+					<thead>
+						<tr class="tdata">
+							<th>
+								<span class="pl20">领用时间</span>
+							</th>
+							<th>
+								<span class="p120">有效期</span>
+							</th>
+							<th>
+								<span>内容</span>
+							</th>
+                            <th>
+								<span>金额</span>
+							</th>
+                             <th>
+								<span>状态</span>
+							</th>
+
+						</tr>
+					</thead>
+					<tbody>
+                      {% for item in coupon%}
+						<tr>
+							<td>
+								<span>
+									{{item.getdate}}
+								</span>
+							</td>
+							<td>
+                               <span>{{item.coupon.expiration_date}}</span>
+							</td>
+							<td>
+								<span>{{item.coupon.description}}</span>
+							</td>
+                            <td>
+								<span>{{item.coupon.preamount}}</span>
+							</td>
+                            <td>
+								<span>{{item.status}}</span>
+							</td>
+						 </tr>
+                       {% endfor%}
+						</tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

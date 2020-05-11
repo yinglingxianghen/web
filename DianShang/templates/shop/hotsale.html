@@ -1,0 +1,123 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+    畅销商品
+{% endblock %}
+{% block content %}
+  <script src="{% static 'js/slide.js' %}"></script>
+	<!-- HOMEPAGE SLIDER -->
+	<div class="wbox myslide">
+		<div class="h300">
+			<ul id="slidelistphone">
+                <li style="background: rgb(26, 20, 82) url(&quot;/static/img/phonebn.jpg&quot;) no-repeat scroll center top; z-index: 39; display: block;">
+                </li>
+            </ul>
+		</div>
+	</div>
+    <div  class="list-product" >
+      <div id="listsrp-nav" class=" pd40 wbox">
+         <div class="coupon_herder clearfix">
+          <h2 class="tit">畅销商品</h2>
+        </div>
+        <!--商品列表-->
+        <!-- PRODUCT LAYOUT -->
+        <ul class="edit-mode product-ul"  >
+            {% for product in bestsale_product %}
+                  <li class="product-li mix-item" >
+                      <div class="pic">
+                            <a  href="{% url 'product_detail'%}?productid={{ product.id}}" target="_blank">
+                                <img class="gload-bgimg lazyloading"  src="{{ product.image.url}}"  >
+                            </a>
+                            <div class="hover">
+                                <a href="{{ product.get_absolute_url }}" class="entry-url"></a>
+                                <ul class="icons unstyled">
+                                    <li>
+                                        <a href="{{ product.image.url }}" class="circle" data-toggle="lightbox"><i class="iconfont-search"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="circle add-cart" data-product-id={{ product.id }}>
+                                            <i class="iconfont-shopping-cart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                      </div>
+                      <div class="txt">
+                            <a  href="{% url 'product_detail'%}?productid={{ product.id}}" target="_blank" class="name" >
+                                {{ product.name}}</a>
+
+                            <div class="entry-description ">
+                                   <p>    月销量：{{ product.salenum }}    |   评价: {{ product.commentnum }}</p>
+                            </div>
+                      </div>
+
+                      <div class="proaction f-cb act">
+                            <div class="u-price w162">¥<b>{{ product.saleprice }}<!--Regular if224--></b>
+                                <span class="marketprice">¥<del>{{ product.price }}</del></span></div>
+                            <div class="w70">
+                                 <form action="{% url "cart_add" %}?product_id={{product.id}}" method="post">
+                                   <input id="product_id" name="product_id" value="{{ product.id }}" type="hidden">
+                                   <input id="quantity" name="quantity" value="1"  type="hidden">
+                                  {% csrf_token %}
+                                  <input type="submit" class="u-maction w70"  value="立即购买">
+                                </form>
+                            </div>
+                      </div>
+
+                  </li>
+            {% endfor %}
+
+        </ul>
+        {% if bestsale_product.paginator.num_pages > 1 %}
+            <div class="ui-page-wrap clearfix">
+                <div class="ui-page">
+                     {% if bestsale_product.has_previous %}
+                            <a class='paginator' title='上一页' href='{{ curr_url}}?page={{ bestsale_product.previous_page_number }}'><span><<上一页</span></a>
+                     {% else %}
+                            <a class='ui-page-cancel' title='上一页' ><span><<上一页</span></a>
+                     {% endif %}
+                      {% for i in pages %}
+                        <a href="{{ curr_url}}?page={{ i }}" {% if i == page %}class="ui-page-curr"{% else %}class="paginator"{% endif %}>{{ i }}</a>
+                      {% endfor %}
+                     {% if bestsale_product.has_next %}
+                         <a class='ui-pager-next' title='下一页' href='{{ curr_url}}?page={{ bestsale_product.next_page_number }}'><span>下一页>></span></a>
+                     {% else %}
+                          <a class='ui-page-cancel' title='下一页' ><span>下一页>></span></a>
+                     {% endif %}
+                     <span class="ui-page-skip">
+                         <form name="filterPageForm" action="{{request.path}}" method="get" >
+                              共{{ bestsale_product.paginator.num_pages }}页，到第
+                              <input name="page" class="ui-page-skipTo" size="3" value="" type="text">页
+                             <button type="submit" class="ui-btn-s" >确定</button>
+                        </form>
+                     </span>
+                </div>
+            </div>
+        {% endif %}
+        <!-- // PRODUCT LAYOUT -->
+
+      </div>
+      <div class="hotrecom wbox floor-current" >
+        <div class="coupon_herder clearfix">
+          <h2 class="tit">热门推荐</h2>
+        </div>
+        <ul class="edit-mode clearfix" >
+            <li>
+                <a href="" target="_blank">
+                    <img class="gload-bgimg lazyloading"  src="/static/img/T11p_jBv_T1RCvBVdK.jpg" >
+                </a>
+            </li>
+            <li>
+                <a  href="" target="_blank">
+                    <img class="gload-bgimg lazyloading" src="/static/img/T1V0WgBjCT1RCvBVdK.jpg"  >
+                </a>
+            </li>
+            <li>
+                <a  href="" target="_blank">
+                    <img class="gload-bgimg lazyloading" src="/static/img/T1y8WjBsxT1RCvBVdK.jpg"  >
+                </a>
+            </li>
+        </ul>
+</div>
+    </div>
+{% endblock %}

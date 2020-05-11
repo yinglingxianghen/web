@@ -1,0 +1,43 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %} 可锐商场{% endblock %}</title>
+   <!-- Favorite Icons -->
+	<link rel="icon" href="{% static 'img/favicon/favicon.html'%}" type="image/x-icon" />
+	<!-- // Favorite Icons -->
+	<!-- GENERAL CSS FILES -->
+	<link rel="stylesheet" href="{% static "css/shop.css"%}">
+    <link rel="stylesheet" href="{% static "css/minified.css"%}">
+{#	<!-- // GENERAL CSS FILES -->#}
+{#	<!-- PARTICULAR PAGES CSS FILES -->#}
+	<link rel="stylesheet" href="{% static "css/owl.theme.css"%}">
+    <link rel="stylesheet" href="{% static "css/innerpage.css"%}">
+     <link rel="stylesheet" href="{% static "css/isotope.css"%}">
+	<link href="{% static "css/flexslider.css"%}" rel="stylesheet" />
+	<!-- // PARTICULAR PAGES CSS FILES -->
+	<link rel="stylesheet" href="{% static "css/responsive.css"%}">
+
+    <script src="{% static "js/jquery.min.js"%}"></script>
+    <script src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="{% static 'js/jquery.cookie.js' %}"></script>
+
+ {% block header %}
+ {% endblock %}
+
+</head>
+<body class="home">
+     {% include 'shop/head.html' %}
+     {% include 'shop/menubar.html' %}
+
+     {% block content %}
+     {% endblock %}
+
+</body>
+
+{% include 'shop/footer.html' %}
+
+<script src="{% static "js/products.js"%}"></script>
+
+</html>

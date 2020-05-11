@@ -1,0 +1,258 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+   确认订单
+{% endblock %}
+
+{% block content %}
+     <!-- BREADCRUMB -->
+	<div  id="breadcrumbs" class=" breadcrumbs-order-app">
+			<div class="breadcrumbsLayout">
+              <div class="breadcrumbsCon ">
+                 <h1 id="mallLogo">
+                  <span class="mlogo">
+                   <a href="" title=""><s></s></a>
+                   </span>
+                  <span class="slogo">
+                 <a href=""></a>
+                 </span>
+                </h1>
+
+                 <div class="breadcrumbs-extra">
+                       <div class="stepbar-box">
+                           <ol class="order-stepbar stepbar-5" >
+                               <li class="" >
+                                   <div class="">
+                                       <div class="step-name" >购物车</div>
+                                       <div class="step-no" >1</div>
+                                   </div>
+                               </li>
+                               <li class="step-cur" >
+                                   <div class="step-done" >
+                                       <div class="step-name" >提交订单</div>
+                                       <div class="step-no" ></div>
+                                   </div></li><li class="" >
+                               <div class="" >
+                                   <div class="step-name" >付款</div>
+                                   <div class="step-no" >3</div>
+                               </div></li>
+                               <li class="" >
+                                   <div class="" >
+                                       <div class="step-name" >确认收货</div>
+                                       <div class="step-no" >4</div>
+                                   </div>
+                               </li>
+                               <li class="step-last" >
+                                   <div class="" >
+                                       <div class="step-name" >评价</div>
+                                       <div class="step-no" >5</div>
+                                   </div>
+                               </li>
+                           </ol>
+                       </div>
+                 </div>
+             </div>
+            </div>
+		</div>
+	<!-- // BREADCRUMB -->
+
+    <div class="container">
+
+         <div class="order-address" >
+             <div class="order-address-wrap" >
+                 <h3 >
+                     <span >确认收货地址</span>
+                     <span class="manage-address" >
+                         <a href="{% url "address" %}" target="_blank" title="管理我的收货地址" data-reactid="">管理收货地址</a></span>
+                 </h3>
+                 <ul class="address-list" >
+                    {% for address in useraddress %}
+                       {% if address.flag == '1' %}
+                           <li id="address-wrap-{{ address.id }}" class="address-wrap default selected" >
+                             <div class="addressBox" >
+                                 <div  id="markerdiv-{{ address.id }}" class="markerdiv" style="display: block">
+                                     <i class="marker" ></i>
+                                     <span class="marker-tip" >寄送至</span>
+                                 </div>
+                                 <label class="addressInfo" >
+                                 <input name="address" id="address-{{ address.id }}" checked="1" value="{{ address.id }}" type="radio">
+                       {% else %}
+                           <li id="address-wrap-{{ address.id }}" class="address-wrap" >
+                             <div class="addressBox" >
+                                <div  id="markerdiv-{{ address.id }}" class="markerdiv" style="display: none">
+                                     <i class="marker" ></i>
+                                     <span class="marker-tip" >寄送至</span>
+                                 </div>
+                                <label class="addressInfo" >
+                                 <span  > <input id="address-{{ address.id }}" name="address"  value='{{ address.id }}' type="radio"></span>
+                       {% endif %}
+                                 <span id="prov_{{ address.id }}">{{ address.provinces.province }}{{ address.city.city }}{{ address.area.area }}</span>
+                                 <span id="address_{{ address.id }}">{{ address.address }}</span>
+                                 <span >（</span>
+                                 <span id="signername_{{ address.id }}">{{ address.signername }}</span>
+                                 <span > 收）</span>
+                                 <span  id="mobile_{{ address.id }}">{{ address.mobile }}</span>
+                               </label>
+                         </div>
+                     </li>
+                    {% endfor %}
+                 </ul>
+             </div>
+         </div>
+
+         <div class="order-info">
+            <h3>订单信息</h3>
+            <table class="tbl-cart">
+                <thead>
+                    <tr>
+                        <th>商品名称</th>
+                        <th style="width: 15%;">单价</th>
+                        <th style="width: 15%;">数量</th>
+                        <th class="hidden-xs" style="width: 15%;">金额</th>
+                        <th class="hidden-xs" style="width: 10%;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for item in cart %}
+                          {% with product=item.products %}
+                            <tr>
+                                <td>
+                                    <a class="entry-thumbnail" href="{{ product.get_absolute_url }}" data-toggle="lightbox">
+                                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" alt="" />
+                                    </a>
+                                    <a class="entry-title" href="{{ product.get_absolute_url }}"  style="margin-left: 10px; width: 450px;">{{ product.name }}</a>
+                                </td>
+                                <td class="unit-price">{{ product.saleprice }}</td>
+                                <td>
+                                   {{ item.products_count }}
+                                </td>
+                                <td class="row-total">{{ item.get_total_price }}</td>
+                                <td class="hidden-xs">
+                                </td>
+                            </tr>
+                          {% endwith %}
+                     {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="shopcart-total pull-right clearfix">
+                <div class="cart-subtotal text-xs m-b-sm clearfix">
+                    <span class="pull-left">小计:</span>
+                    <span id="gettotalprice"  class="pull-right" data-amount="{{cart_amount}}">{{ cart_amount }}</span>
+                </div>
+
+                <div class="orderPay">
+                   <input id="coursetotal" data-amount="{{amount}}" value="{{amount}}" type="hidden">
+                     {% if couponlist%}
+                    <p>优惠券：
+                        <select id="coupon" name="coupon"  style="width: 150px; height: 22px;font-size: 14px;text-align: center;padding: 1px 0px;border: 1px solid #ccc;" value="">
+                        <option value="0" selected="selected">--</option>
+                          {%for coup in couponlist%}
+                             <option data-id="{{coup.id}}" value="{{coup.coupon.preamount}}" >{{coup.coupon.description}}</option>
+                          {%endfor%}
+                        </select>
+                     <span id="couponamount"  class="pull-right"  >0</span>
+                    </p>
+                     {% endif%}
+                   <p><span>运费：</span><span class="pull-right" id="yunfei" data-amount="10"> 10（元）</span></p>
+                </div>
+                <div class="cart-total text-bold clearfix">
+                    <span class="pull-left">合计:</span>
+                    <span id="payrealamount" class="pull-right"></span>
+                </div>
+                <div class="text-center">
+                        <form id='orderfrm'action="{% url "order_create" %}" method="post">
+                              {% csrf_token %}
+                              <input type = "hidden" id="coupan_id"  name="coupan_id" value="">
+                              <input type = "hidden" id="coupan_amount"  name="coupan_amount" value="">
+                              <input type = "hidden" id="product_ids" name="product_ids" value={{ ids }}>
+                              <input type = "hidden" id="amount" name="amount" value="">
+                              <input type = "hidden" id="yun_fei" name="yun_fei" value="10">
+                              <input type="hidden" name="">
+                              <input type="submit" class="btn btn-round btn-default uppercase" onclick="check()" value="提交订单">
+                        </form>
+            </div>
+			</div>
+
+        </div>
+
+    </div>
+<script type="text/javascript">
+
+      //  $(":radio").click(function(){
+        function check() {
+           var radios = document.getElementsByName("address");
+            var id;
+            for(var i=0;i<radios .length;i++){
+            if(radios[i].checked){
+              id = radios[i].value;
+              break;
+            }}
+           // var id = $(this).val();
+            var prov = $('span#prov_'+id).text();
+            var address = $('span#address_'+id).text();
+            var signername = $('span#signername_'+id).text();
+            var mobile = $('span#mobile_'+id).text();
+            var form = $("#orderfrm");
+            form.append("<input type='hidden' value='"+prov+"' name='prov' />");
+            form.append("<input type='hidden' value='"+address+"' name='address' />");
+            form.append("<input type='hidden' value='"+signername+"' name='signername' />");
+            form.append("<input type='hidden' value='"+mobile+"' name='mobile' />");
+            $('.address-wrap').removeClass('default selected');
+            $('#address-wrap-'+id).addClass('default selected');
+            $(".markerdiv").css("display","none");
+            $("#markerdiv-"+id).css("display","block");
+            form.submit();
+        }
+     $(":radio").click(function(){
+            var id = $(this).val();
+            var prov = $('span#prov_'+id).text();
+            var address = $('span#address_'+id).text();
+            var signername = $('span#signername_'+id).text();
+            var mobile = $('span#mobile_'+id).text();
+            var form = $("#orderfrm");
+            form.append("<input type='hidden' value='"+prov+"' name='prov' />");
+            form.append("<input type='hidden' value='"+address+"' name='address' />");
+            form.append("<input type='hidden' value='"+signername+"' name='signername' />");
+            form.append("<input type='hidden' value='"+mobile+"' name='mobile' />");
+            $('.address-wrap').removeClass('default selected');
+            $('#address-wrap-'+id).addClass('default selected');
+            $(".markerdiv").css("display","none");
+            $("#markerdiv-"+id).css("display","block");
+     })
+
+      //改变优惠券后
+     $("#coupon").change(function() {
+         var amount = $("#coupon").val();
+         var id = $("#coupon").data('id');
+         $("#coupan_id").val(id);
+         $("#coupan_amount").val(amount);
+         $("#couponamount").html(amount+'（元）');
+         if (Number(amount)>=0){
+             getpayamount()
+         }
+     })
+     function getpayamount(){
+         var gettotalprice = $("#gettotalprice").data('amount');
+         var amount = $("#coupon").val();
+         var yunfei = $("#yunfei").data('amount');
+
+         if(typeof(amount) == 'undefined'||amount == '') {
+             amount = 0 ;
+         }
+         if(yunfei == ''||typeof(yunfei)== 'undefined') {
+             yunfei = 0 ;
+         }
+
+         payrealamount = parseFloat(gettotalprice)-parseFloat(amount)+parseFloat(yunfei)
+
+         $("#payrealamount").html(payrealamount+'（元）');
+         $("#amount").val(payrealamount);
+
+     }
+   getpayamount();
+</script>
+{% endblock %}

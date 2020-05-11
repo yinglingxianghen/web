@@ -1,0 +1,326 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ product.name }}分类页
+{% endblock %}
+{% block content %}
+<div id="content" class="list-product">
+  <div id="listsrp-nav" >
+    <div class="m-nav g-clearfix">
+        <!--分类-->
+        <div class="nSearchWarp mt10">
+        <!--显示已选择分类-->
+            <div class="nSearch-crumb clearfix">
+                <span id="category-first" catgoryid=""  class="nSearch-crumb-tit-category">{{ topcatename }}</span>
+                {% if seccatename %}
+                    <dl class="nSearch-crumb-category" catgoryid="" id="category-second">
+                        <dt class="category-name">{{ seccatename }}</dt>
+                        <dd class="category-box clearfix" id="category-box-second" >
+                            {% for category in category_three %}
+                               <a  href="{% url 'category' %}?topcatename={{ topcate.name }}&thirdid={{ category.id }}&seccateid={{ seccateid }}&2catename={{ seccatename }}&selcatename={{ category.name }}">{{ category.name }}</a>
+                            {% endfor%}
+                        </dd>
+                    </dl>
+                {% endif%}
+                <a id="clearallfacts" class="nSearch-crumb-clearFacets" data-code="" href="">全部清空</a>
+                <div class="nSearch-crumb-facetsCurrent-warp" id="nSearch-crumb-facetsCurrent-warp" style="width: 816px;">
+                    <ul class="nSearch-crumb-facetsCurrent haschecked" >
+                        <li data-id="" class="select_category">
+                            <a href="javascript:void(0)"><i>×</i><em>选择类型：{{ selcatename }}</em></a>
+                        </li>
+                        {% if  brand_selected %}
+                          <li data-id="" class="select_category">
+                              <a  href="javascript:void(0)" data-type="brandtype"><i>×</i><em>品牌：{{ brand_selectednamme }}</em></a>
+                          </li>
+                        {% endif%}
+                    //***
+                        {% for selected in selected_list %}
+                            <li data-id="" class="select_category categoryproperty">
+                              <a  href="javascript:void(0)" data-type="selected" data-id="{{ selected.id }}" data-category="{{ selected.cateid }}"><i>×</i>
+                                  <em>{{ selected.categoryproperty }}：{{ selected.name }}</em></a>
+                            </li>
+                        {% endfor%}
+                    ***//
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nSearchWarp nSearch-crumb-category-results">
+                <span class="nFont14"><b class="nHeigh">{{ selcatename }}</b>商品筛选</span>
+                <span>共 <em id="searchTotalNumber">{{ products_count}}</em> 个商品</span>
+            </div>
+        </div>
+        <div class="nSearch-facets" id="module-facet">
+           <div id="facets-category-brand" class="nSearchWarp  facets-category clearfix">
+            <!--显示品牌-->
+               <div class="brandtype {% if brand_selected %} brand_noshow  {% endif%}">
+                  <span class="fc-key"><b>品牌：</b></span>
+                  <div class="fc-content ">
+                    <ul class="category-brand " style="position: relative;">
+                        {% for brands in brands_list %}
+                            <li class="c-brand " >
+                                <a  href="{{ request.get_full_path}}&brandid={{ brands.id }}" class="facet">
+                                    <img src="{{ brands.image.url }}" style="width: 116px; height: 48px;" title="{{ brands.name}}"/>
+                                    <i></i>
+                                </a>
+                            </li>
+                        {% endfor%}
+                    </ul>
+                  </div>
+               </div>
+             <!--显示分类属性-->
+               {% for categoryproperty in categoryproperty_list %}
+                    <div id="cate_{{ categoryproperty.id }}" class="facets-category-common
+                    {% for selected in selected_list %} {% ifequal selected.cateid categoryproperty.id %} brand_noshow  {% endifequal%} {% endfor%}">
+                      <!--显示分类属性名称-->
+                       <span class="fc-key fir" data-category="{{ categoryproperty.id }}">{{ categoryproperty.displayname }}：</span>
+                      <!--显示分类属性值-->
+                       <div class="fc-content">
+                         <div class="category-normal">
+                            <ul class="clearfix" >
+                                {% for propertyvalue in propertyvalue_list %}
+                                     {% ifequal propertyvalue.categoryproperty.id categoryproperty.id %}
+                                        <li><a class="facet"  href="javascript:void(0)" id="property_{{propertyvalue.id }}" data-id="{{propertyvalue.id }}" data-category="{{ categoryproperty.id }}" >
+                                            {{ propertyvalue.valuename }}</a></li>
+                                     {% endifequal %}
+                                {% endfor%}
+                            </ul>
+                        </div>
+                       </div>
+                    </div>
+               {% endfor%}
+
+            </div>
+           <!--排序-->
+           <div class="wbox listsrp-sortbar">
+            <div class="m-sortbar" id="J_relative">
+              <div class="sort-row">
+                <div class="sort-inner">
+                    <ul class="sorts">
+                      <li class="sort">
+                        <a class="J_Ajax link active first" href="#" >综合排序：</a>
+                      </li>
+
+                      <li class="sort">
+                        <a class="J_Ajax link  "  href="{{ request.get_full_path}}&orderby=viewnum">人气</a>
+                      </li>
+
+                      <li class="sort">
+                        <a class="J_Ajax link  "  trace="sortSaleDesc" title="销量从高到低" href="{{ request.get_full_path}}&orderby=salenum">销量</a>
+                      </li>
+
+                      <li class="sort">
+                        <a class="J_Ajax link  "  trace="sortCreditDesc" title="信用从高到低" href="{{ request.get_full_path}}&orderby=commentnum">信用</a>
+                      </li>
+
+                       <li class="sort">
+                        <a class="J_Ajax link  "  trace="sortprice" title="价格从低到高" href="{{ request.get_full_path}}&orderby=saleprice">价格</a>
+                      </li>
+                    </ul>
+                </div>
+              </div>
+             </div>
+        </div>
+          <!--商品列表-->
+             <!-- PRODUCT LAYOUT -->
+         <div  class="wbox" >
+		    <ul class="edit-mode product-ul" >
+		    	{% for product in product_list %}
+                   <li class="product-li mix-item" >
+                      <div class="pic">
+                            <a  href="{% url 'product_detail'%}?productid={{ product.id}}" target="_blank">
+                                <img class="gload-bgimg lazyloading"  src="{{ product.image.url}}"  >
+                            </a>
+                            <div class="hover">
+                                <a href="{{ product.get_absolute_url }}" class="entry-url"></a>
+                                <ul class="icons unstyled">
+                                    <li>
+                                        <a href="{{ product.image.url }}" class="circle" data-toggle="lightbox"><i class="iconfont-search"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="circle add-cart" data-product-id={{ product.id }}>
+                                            <i class="iconfont-shopping-cart"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                      </div>
+                      <div class="txt">
+                            <a  href="{% url 'product_detail'%}?productid={{ product.id}}" target="_blank" class="name" >
+                                {{ product.name}}</a>
+
+                            <div class="entry-description ">
+                                   <p>    月销量：{{ product.salenum }}    |   评价: {{ product.commentnum }}</p>
+                            </div>
+                      </div>
+
+                      <div class="proaction f-cb act">
+                            <div class="u-price w162">¥<b>{{ product.saleprice }}<!--Regular if224--></b>
+                                <span class="marketprice">¥<del>{{ product.price }}</del></span></div>
+                            <div class="w70">
+                                             <form action="{% url "addcart"%}" method="post">
+                                               <input id="product_id" name="product_id" value="{{ product.id }}" type="hidden">
+                                               <input id="quantity" name="quantity" value="1"  type="hidden">
+                                              {% csrf_token %}
+                                              <input type="submit" class="u-maction w70"  value="立即购买">
+                                            </form>
+                                        </div>
+                      </div>
+
+                  </li>
+            {% endfor %}
+		    </ul>
+	     </div>
+	           <!--分页-->
+            {% if product_list.paginator.num_pages > 1 %}
+            <div class="ui-page-wrap clearfix">
+                <div class="ui-page">
+                     {% if product_list.has_previous %}
+                            <a class='paginator' title='上一页' href='{{ curr_url}}&page={{ product_list.previous_page_number }}'><span><<上一页</span></a>
+                     {% else %}
+                            <a class='ui-page-cancel' title='上一页' ><span><<上一页</span></a>
+                     {% endif %}
+                      {% for i in pages %}
+                        <a href="{{ curr_url}}&page={{ i }}" {% if i == page %}class="ui-page-curr"{% else %}class="paginator"{% endif %}>{{ i }}</a>
+                      {% endfor %}
+                     {% if product_list.has_next %}
+                         <a class='ui-pager-next' title='下一页' href='{{ curr_url}}&page={{ product_list.next_page_number }}'><span>下一页>></span></a>
+                     {% else %}
+                          <a class='ui-page-cancel' title='下一页' ><span>下一页>></span></a>
+                     {% endif %}
+                     <span class="ui-page-skip">
+                         <form name="filterPageForm" action="{{request.get_full_path}}" method="get" >
+                              共{{ product_list.paginator.num_pages }}页，到第
+                              <input name="page" class="ui-page-skipTo" size="3" value="" type="text">页
+                             <button type="submit" class="ui-btn-s" >确定</button>
+                        </form>
+                     </span>
+                </div>
+            </div>
+        {% endif %}
+
+            <!-- // PRODUCT LAYOUT -->
+
+         </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+ $(function () {
+    //js的数组对象定义一个函数，用于查找指定的元素在数组中的位置，即索引
+    Array.prototype.indexOf = function(val) {
+        for (var i = 0; i < this.length; i++) {
+        if (this[i] == val) return i;
+        }
+        return -1;
+        };
+    Array.prototype.insert = function(index, value) {
+        if(index < 0){
+            //如果index位置无效,默认插入到最后一个位置上
+            index = this.length;
+        }
+        var part1 = this.slice(0, index);
+        var part2 = this.slice(index);
+        part1.push(value);
+        return (part1.concat(part2));
+      };
+    //使用通过得到这个元素的索引，使用js数组自己固有的函数去删除这个元素
+    Array.prototype.remove = function(val) {
+        var index = this.indexOf(val);
+        if (index > -1) {
+        this.splice(index, 1);
+        }
+        };
+
+
+
+  //商品销售分类属性选择
+ $(".facet").click(function(){
+         var  id = $(this).data('id');
+         var currurl='{{ request.get_full_path }}';
+         var  category = $(this).data('category');
+        //初始化属性id数组
+         var p_ids=[];
+         //隐藏该分类
+         $('#cate_'+category).addClass("brand_noshow");
+
+         //根据所选属性构造url
+         if (currurl.indexOf('propertyvalueid=')>-1){
+             //从url取出已有的id,并加到数组中
+             initids = currurl.substring(currurl.indexOf('propertyvalueid=')+16);
+             p_ids.push(initids);
+             //将点击的属性id加到数组中
+             p_ids.push(id);
+             //构造新的url
+             currurl = currurl.substring(0,currurl.indexOf('propertyvalueid=')-1);
+             currurl = currurl +'&propertyvalueid='+p_ids+'';
+         }
+         else{
+              //将点击的属性id加到数组中
+             p_ids.push(id);
+              //构造新的url
+             currurl = currurl +'&propertyvalueid='+p_ids+'';
+         }
+         window.location.href=currurl;
+
+        });
+   });
+ //删除已选择分类，显示下面商品销售分类属性
+ $(".select_category a" ).click(function(){
+         var  type = $(this).data('type');
+         var  category = $(this).data('category');
+         var  id = $(this).data('id');
+         var currurl='{{ request.get_full_path }}';
+         //初始化属性id数组
+         var p_ids=[];
+         //品牌
+         if (type=='brandtype'){
+             $('.brandtype').removeClass("brand_noshow");
+             if (currurl.indexOf('brandid=')>-1){
+             currurl = currurl.substring(0,currurl.indexOf('brandid')-1);
+             //将选择的li节点删除
+            $("this").closest('li').remove();
+         } }
+         //商品销售分类属性
+         if (type=='selected'){
+             $('#cate_'+category).removeClass("brand_noshow");
+             //将选择的li节点删除
+             $("this").closest('li').remove();
+              //从url取出已有的id,并加到数组中
+             initids = currurl.substring(currurl.indexOf('propertyvalueid=')+16);
+             p_ids = initids.split(",");// 在每个逗号(,)处进行分解为数组
+             //p_ids.push(initids);
+             //将已选的id删除
+             p_ids.remove(id);
+              //根据所选属性构造url
+             if (currurl.indexOf('propertyvalueid=')>-1){
+                 currurl = currurl.substring(0,currurl.indexOf('propertyvalueid=')-1);
+                 currurl = currurl +'&propertyvalueid='+p_ids+'';
+             }
+             else{
+                 currurl = currurl +'&propertyvalueid='+p_ids+'';
+             }
+         }
+
+         window.location.href=currurl;
+
+   });
+ //全部清空
+ $("#clearallfacts " ).click(function(){
+    var currurl='{{ request.get_full_path }}';
+    if (currurl.indexOf('brandid=')>-1){
+        currurl = currurl.substring(0,currurl.indexOf('brandid')-1);
+        $('.brandtype').removeClass("brand_noshow");
+        }
+    if (currurl.indexOf('propertyvalueid=')>-1){
+        currurl = currurl.substring(0,currurl.indexOf('propertyvalueid')-1);
+        $('.facets-category-common').removeClass("brand_noshow");
+             //将选择的li节点删除
+        $(".categoryproperty").closest('li').remove();
+        }
+    window.location.href=currurl;
+    return false;
+   });
+</script>
+
+{% endblock %}

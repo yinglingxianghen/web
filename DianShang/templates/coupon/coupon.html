@@ -1,0 +1,87 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+    优惠券
+{% endblock %}
+{% block content %}
+
+	<!-- HOMEPAGE SLIDER -->
+<div class="wbox myslide">
+		<div id="full-screen-slider" class="h300">
+			<ul id="slidelistphone">
+                <li style="background: rgb(26, 20, 82) url(&quot;/static/img/phonebn.jpg&quot;) no-repeat scroll center top; z-index: 39; display: block;">
+                </li>
+            </ul>
+
+		</div>
+	</div>
+<div class="list-product ">
+    <div class="wbox coupon-box " style="display: block;">
+        <div class="coupon_herder clearfix">
+          <h2 class="tit">领券中心</h2> <span class="price pull-right">{% if msg %}{{ msg }}{%endif%}</span>
+        </div>
+        <div class="m-basepool f-cb ">
+            <div class="m-data-lists f-cb f-pr j-data-list">
+                <div  class="first last">
+                    {% for cou in coupon_list %}
+                    <div class="coupon">
+                        <div class="upper green">
+                            <p class="line1">
+                                <span>优惠券</span>
+                            </p>
+                            <p class="line2">
+                                <span class="price"><span class="icon">¥</span>{{ cou.preamount }}</span>
+                                <span class="f-r">{% if cou.type == '1' %} 单一商品 {%else%} 全部商品 {%endif%}</span>
+                            </p>
+                        </div>
+                        <div class="lower">
+                            <div class="icon-box f-cb">
+                                <p class="f-fl icon-box-t">适用范围：</p>
+                                <p class="icon-box-all f-fl" >
+                                   {{ cou.description }}
+                                </p>
+                            </div>
+                            <div class="icon-box f-cb">
+                                <p class="f-fl icon-box-t">有效期限：</p>
+                                <p class="icon-box-all f-fl">从 {{ cou.created_at }}<br> 至 {{ cou.expiration_date }}</p>
+                            </div>
+
+                        </div>
+                         <div class="coupon_text">
+                             <form action="{% url "coupon_list" %}" method="post">
+                                {% csrf_token %}
+                                 <input type = "hidden" id="coupanid"  name="coupanid" value="{{ cou.id }}">
+                                 <input type="submit" class="getcoupon" value="立即领券">
+                             </form>
+                         </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="wbox j_area area-con"  style="opacity: 1;" >
+            <div class="module-body j_areaBody clearfix">
+                <a  class="area-item  " >
+                    <img src="/static/img/TB1l.ByEeySBuNjy1zdXXXPxFXa-476-260.jpg_240x5000q100.jpg" class="img-ks-lazyload" >
+                </a>
+                <a  class="area-item " href="" >
+                    <img src="/static/img/TB1dd5BDKySBuNjy1zdXXXPxFXa-476-260.jpg_240x5000q100.jpg" class="img-ks-lazyload" >
+                </a>
+                <a  class="area-item" href="" >
+                    <img src="/static/img/TB1TMdrEk9WBuNjSspeXXaz5VXa-476-260.jpg_240x5000q100.jpg" class="img-ks-lazyload" >
+                </a>
+                <a  class="area-item last-990 " href="" >
+                    <img src="/static/img/TB1AV7xvLuSBuNkHFqDXXXfhVXa-476-260.jpg_240x5000q100.jpg" class="img-ks-lazyload" >
+                </a>
+               <a  class="area-item  last-1230 " href="" >
+                    <img src="/static/img/TB1dmONDYuWBuNjSszgXXb8jVXa-476-260.jpg_240x5000q100.jpg" class="img-ks-lazyload" >
+                </a>
+
+               </div>
+        </div>
+</div>
+{% endblock %}

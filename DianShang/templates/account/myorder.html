@@ -1,0 +1,144 @@
+{% extends "account/base_account.html" %}
+
+{% block title %}我的订单信息{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+        $('#orderstatus  a').each(function () {
+            if ($($(this))[0].href == String(window.location))
+                $(this).addClass('curr').attr('href', 'javascript:void(0);');
+        });
+</script>
+<div class="orderContainer pt20 mb20">
+   <div id="sMenu" class="menuSidebar">
+	  {% include 'account/leftmenu.html' %}
+</div>
+        <div class="pageContent">
+            <div class="mcTitle">
+                <ul class="user_tab1 fl">
+                    <li class="curr">我的订单</li>
+                </ul>
+            </div>
+           <div style="border:1px solid #ccc;border-top:none;" class="p20 mcSearchBar">
+
+                <div class="kclb_ext_s">
+    				<dl style="width:auto;"class="dl_u_zt pt20">
+    					<dt class="fl mr10 pdtop8">状态：</dt>
+    					<dd  id="orderstatus" class="pdtop8">
+                            <a href="{% url "myorder" %}" class="curr">全部</a>
+    						<a href="{% url "myorder" %}?status=1">购物车</a>
+    						<a href="{% url "myorder" %}?status=2">待支付</a>
+    						<a href="{% url "myorder" %}?status=3">已购买</a>
+    						<a href="{% url "myorder" %}?status=5">已退款</a>
+    						<a href="{% url "myorder" %}?status=4">已评介</a>
+    						<a href="{% url "myorder" %}?status=0">已取消</a>
+    					</dd>
+    				</dl>
+    			</div>
+            </div>
+
+            <!-- =E mcSecrchBar -->
+
+			<div class="tabBox_wddd mb20">
+				<table cellspacing="0" class="mcTab">
+					<colgroup>
+						<col width="80">
+                        <col width="350">
+                        <col width="90">
+                        <col width="90">
+                        <col width="90">
+                        <col width="130">
+                        <col width="80">
+                        <col width="110">
+					</colgroup>
+					<thead>
+						<tr class="tdata">
+							<th>
+								<span class="pl20">订单号</span>
+							</th>
+							<th>
+								<span class="pl140">商品名称</span>
+							</th>
+							<th>
+								<span>价格</span>
+							</th>
+                            <th>
+								<span>数量</span>
+							</th>
+                             <th>
+								<span>金额</span>
+							</th>
+							<th>
+                                <span>下单时间</span>
+							</th>
+							<th>
+								<span>订单状态</span>
+							</th>
+							<th>
+								<span>操作</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+                      {% for item in order_items%}
+						<tr>
+							<td>
+								<div class="pl20">
+									{{item.order_id}}
+								</div>
+							</td>
+							<td>
+                               <dl class="picTxt clearfix">
+                                   <dt class="picimg fl"><a  href="" class="pic fl mr10">
+                                                    <img width="106" height="80" src="{{item.product.image.url}}"></a></dt>
+                                   <dd class="txt fl ml15">
+                                                    <a target="_blank" href="">{{item.product.name }}</a>
+                                            </dd>
+                               </dl>
+							</td>
+							<td>
+								<span>{{item.price}}</span>
+							</td>
+                            <td>
+								<span>{{item.quantity}}</span>
+							</td>
+                            <td>
+								<span>{{item.order.amount}}</span>
+							</td>
+							<td>
+								<div class="pr20">{{item.order.created}}</div>
+							</td>
+							<td>
+								 <span>{% if  item.order.status == '2'%}
+                                     待支付
+                                 {% elif  item.order.status == '3'  %}
+                                     已支付
+                                 {% elif  item.order.status == '4'  %}
+                                     已评价
+                                 {% elif  item.order.status == '5'  %}
+                                     已退款
+                                 {% elif  item.order.status == '5'  %}
+                                     已取消
+                               {% endif%}</span>
+							</td>
+							<td>
+                               {% if  item.order.status == '1'  or item.order.status == '2'%}
+                                     <p><a class="post_btn" href="{% url "paychoice" %}?order_id={{item.order_id}}">支付</a></p>
+                                     <p><a class="post_btn" href="{% url "myorder" %}?flag=cancel&order_id={{item.order_id}}">取消</a></p>
+                               {% elif  item.order.status == '3'  %}
+                                     <p><a class="post_btn" href="{% url "mycomment" %}?order_id={{item.order_id}}">评价</a></p>
+                               {% endif%}
+							</td>
+						 </tr>
+                       {% endfor%}
+						</tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

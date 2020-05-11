@@ -1,0 +1,4 @@
+INFO 2018-02-27 20:39:33,335 F:\workspace\seckillshop\apps\seckill\views.py views.py views paying_code_weixin_pay 452: 'prepay_id'
+INFO 2018-02-27 20:46:35,117 F:\workspace\seckillshop\apps\seckill\views.py views.py views paying_code_weixin_pay 452: 'prepay_id'
+INFO 2018-02-27 20:48:54,839 F:\workspace\seckillshop\apps\seckill\views.py views.py views paying_code_weixin_pay 452: 'prepay_id'
+INFO 2018-02-27 20:54:34,956 F:\workspace\seckillshop\apps\seckill\views.py views.py views getcode_url 482: 'prepay_id'

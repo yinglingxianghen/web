@@ -1,0 +1,108 @@
+<div class="category-box">
+      <div class="container menuheight">
+        <div class="main-header menuheight">
+            <nav role="navigation" id="site-menu">
+                <ul class="main-menu hidden-sm hidden-xs menuheight">
+
+                    <li >
+                        <a href="/">首页</a>
+                    </li>
+                    <li >
+                        <a href="">淘实惠</a>
+                    </li>
+                    <li>
+                      <a href="">畅销商品</a>
+                    </li>
+                    <li>
+                      <a href="">手机通讯</a>
+                    </li>
+                    <li>
+                      <a href="">电脑数码</a>
+                    </li>
+                     <li>
+                      <a href="{% url 'coupon_list' %}">优惠券</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="category-item">
+                <div class="category-type">
+                        <span class="lineicon"><i></i><i></i><i></i></span>
+                        <span class="text" >商品分类</span>
+                </div>
+                <div class="category-tab-content" style="display:none">
+                <div class="nav-con j_tabPannel category-tab-pannel pannel-normal" >
+                    <ul class="normal-nav clearfix">
+                         {% for topcate in top_categories %}
+                            <li class="j_MenuNav nav-item nav-item-0 category-loaded" data-spm="category{{ topcate.id }}" >
+                                <i class="fp-iconfont nav-item-icon icon"></i>
+                                <i class="dot fp-iconfont"></i>
+                                <a  class='firstcategory' href="{% url 'category' %}?topid={{ topcate.id }}&topcatename={{ topcate.name }}&selcatename={{ topcate.name }}" >{{ topcate.name }}</a>
+                                <b class="arrow"></b>
+                                <div class="content-con j_categoryContent" data-parentid="{{ topcate.id }}" style="display:none">
+                                   <ul class="hot-word-con" data-spm="{{ topcate.name }}">
+                                    {% with currlist=categories %}
+                                      {% for 2cate in currlist %}
+                                          {% ifequal 2cate.parent.id topcate.id %}
+                                            <li class="hot-word-line">
+                                                <span class="line-title">
+                                                    <div class="title-text">
+                                                        <a class="hot-title " href="{% url 'category' %}?topcatename={{ topcate.name }}&topid={{ topcate.id }}&seccateid={{ 2cate.id }}&selcatename={{ 2cate.name }}">{{ 2cate.name  }}</a>
+                                                        <i class="fp-iconfont"></i>
+                                                    </div>
+                                                </span>
+                                                <span class="line-con">
+                                                   {% for 3cate in currlist %}
+                                                          {% ifequal 3cate.parent.id 2cate.id %}
+                                                             <a class="hot-word " href="{% url 'category' %}?topcatename={{ topcate.name }}&thirdid={{ 3cate.id }}&seccateid={{ 2cate.id }}&2catename={{ 2cate.name }}&selcatename={{ 3cate.name }}">{{ 3cate.name  }}</a>
+                                                          {% endifequal %}
+                                                   {% endfor%}
+                                                </span>
+
+                                            </li>
+                                            <div class="seprate clearfix"></div>
+                                            <!-- // SITE NAVIGATION MENU -->
+                                          {% endifequal %}
+                                      {% endfor %}
+                                 {% endwith %}
+                               </ul>
+                              </div>
+                            </li>
+                         {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+            </div>
+        </div>
+      </div>
+</div>
+
+ <script type="text/javascript">
+           //显示商品分类
+{#             $('.category-type').hover(function(){#}
+{#               $(".category-tab-content").css("display","block");#}
+{#               $(".category-tab-content").show();#}
+{#             },function(){#}
+{#                   $(".category-tab-content").hide();#}
+{#            });#}
+            $(".category-item").mouseover(function(){
+                $(".category-tab-content").css("display","block");
+            }).mouseleave(function(){
+                $(".category-tab-content").hide();
+            });
+            $(".j_MenuNav").mouseover(function(){
+               // $(".content-con").css('background','#20B2AA');
+                $(this).children('.content-con').css("display","block");
+            }).mouseleave(function(){
+                $(".content-con").hide();
+            });
+            $('.j_MenuNav').hover(function(){
+               // $(this).addClass('item_hover');
+                $(this).children('.content-con').css("display","block");
+            },function(){
+                $(this).children('.content-con').hide();
+            });
+            $('.normal-nav').mouseleave(function(){
+              $(".category-tab-content").hide();
+            });
+        </script>

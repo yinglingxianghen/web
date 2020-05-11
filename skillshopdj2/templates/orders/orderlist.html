@@ -1,0 +1,75 @@
+{% extends 'seckill/base.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+
+{% block content %}
+    <div class="mr-10"></div>
+    <div class="breadcrumb-container" >
+			<div class="">
+				<div class="register-title">
+					 <span> <a href="{% url 'edit' %}" target='_self'><h1>编辑个人信息</h1></a></span>
+                     <span> <a href="{% url 'password_change' %} "target='_self'><h1>修改密码</h1></a></span>
+                     <span> <a href="{% url 'orderlist' %} "target='_self'><h1>我的订单</h1></a></span>
+                     {% if request.user.is_superuser %}
+                        <span> <a href="{% url 'seckillproduct_list' %} "target='_self'><h1>秒杀商品列表</h1></a></span>
+				     {% endif %}
+                </div>
+			</div>
+	</div>
+    <div class="container">
+        <div class="order-info">
+            <h3 class="register-title">我的订单信息</h3>
+            <table class="tbl-cart">
+						<thead>
+							<tr>
+                                <th style="width: 8%;">订单号</th>
+                                <th style="width: 8%;">状态</th>
+								<th>商品名称</th>
+								<th style="width: 8%;">单价</th>
+								<th style="width: 8%;">数量</th>
+								<th  style="width: 8%;">金额</th>
+								<th  style="width: 10%;">订单时间</th>
+							</tr>
+						</thead>
+						<tbody>
+                            {% for item in orderlist %}
+                                {% if forloop.counter|divisibleby:2 %}
+						        	<tr class="linetr">
+                                {% else %}
+                                     <tr class="">
+                                {% endif %}
+                                        <td>
+                                           {{ item.order.id }}
+                                        </td>
+                                        <td>
+                                            {% ifequal item.order.status '2' %}
+                                              成功
+                                            {% else %}
+                                              未成功
+                                            {% endifequal %}
+                                        </td>
+                                        <td>
+                                            <a class="entry-thumbnail" href="{{ item.product.image.url }}" data-toggle="lightbox">
+                                                <img src="{% if item.product.image %}{{ product.image.url }}{% else %}{% static "images/no_image.png" %}{% endif %}" alt="" />
+                                            </a>
+                                            <a class="entry-title" href="">{{ item.product.title }}</a>
+                                        </td>
+                                        <td><span class="unit-price">{{ item.price }}</span></td>
+                                        <td>
+                                           {{ item.quantity }}
+                                        </td>
+                                        <td class="hidden-xs"><strong class="text-bold row-total">{{ item.get_cost }}</strong></td>
+                                        <td >
+                                            {{ item.order.created| date:'Y-m-d' }}
+                                        </td>
+							        </tr>
+
+                             {% endfor %}
+						</tbody>
+					</table>
+
+        </div>
+
+    </div>
+
+{% endblock %}

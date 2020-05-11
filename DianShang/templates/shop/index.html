@@ -1,0 +1,124 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}
+    首页
+{% endblock %}
+
+{% block content %}
+     <script src="{% static 'js/slide.js' %}"></script>
+	<!-- HOMEPAGE SLIDER -->
+	<div class="wbox myslide">
+		<div id="full-screen-slider">
+			<ul id="slidelist">
+               {% for ad in ad_list %}
+                   {% if ad.location == 'a1' %}
+                    <a target="_blank" href="{{ ad.callback_url }}">
+                        <li style="background: {{ ad.bgcolor }} url(&quot;{{ ad.image.url }}&quot;) no-repeat scroll center top; z-index: 39; display: none;">
+                        </li>
+                    </a>
+                   {% endif %}
+               {% endfor %}
+            </ul>
+		</div>
+	</div>
+
+    <!-- 优惠券 -->
+    <div class="wbox quan_out edit-mode mini ">
+        <div class="">
+        <div class="index_fl edit-mode" >
+            <a href="" target="_blank" >
+                <img class="lazyloading" src="/static/img/coupon.jpg"  height="110" width="122">
+            </a>
+        </div>
+            <ul class="index_fl list_out clearfix edit-mode" >
+                {% for coupon in coupon_list %}
+                 <li class="index_fl quan_list num1">
+                    <a class="coupons-container js-can js-ready" mx-click="getCoupons()">
+                        <span class="coupons-price"><strong>¥</strong>{{ coupon.preamount  }} </span>
+                        <span class="coupons-data">有效期至：{{ coupon.expiration_date  }}</span>
+                        <span class="coupons-content">{{ coupon.description  }}</span>
+                    </a>
+                </li>
+                {% endfor%}
+            </ul>
+        <div class="index_fr quan_r edit-mode" >
+            <a href="{% url 'coupon_list'%}" target="_blank" >
+                <img class="lazyloading" src="/static/img/T13MDvBjC_1RCvBVdK.jpg"   height="110" width="39">
+            </a>
+        </div>
+    </div>
+    </div>
+   <!-- 畅销商品 -->
+    <div class="lazy-fn-wrap clearfix ">
+        <div class="wbox gm_guess" style="display: block;">
+        <div class="gm_title">
+                    <h2>畅销商品</h2>
+                    <span></span>
+                    <div class="change_btn">
+                        <a class="pre" href="{% url 'hotsale_list'%}" onselectstart="return false" style="-moz-user-select:none;"></a>
+                        <a class="nex" href="{% url 'hotsale_list'%}" onselectstart="return false" style="-moz-user-select:none;"></a>
+                    </div>
+                </div>
+            <div class="guess_main" id="guess_main" data-lazy-img-install="1">
+                <div id="j-imgload-recomm">
+                    <ul style="display: block">
+                        {% for product in bestsale_product %}
+                        <li>
+                            <a  target="_blank"  href="{% url 'product_detail'%}?productid={{ product.id}}">
+                                <img alt="" src="{{ product.image.url}}" height="120" width="120">
+                                <p class="guess_title">{{ product.name}}</p>
+                                <p class="guess_price"><span class="yuan">¥</span>{{ product.saleprice}}</p>
+                            </a>
+                        </li>
+                        {% endfor%}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'shop/phone.html' %}
+    {% include 'shop/computer.html' %}
+    {% include 'shop/diqi.html' %}
+    {% include 'shop/cloth.html' %}
+    {% include 'shop/jiaju.html' %}
+
+     <script type="text/javascript">
+
+    $('.tabphoneproperty').hover(function(){
+       // $(this).addClass('item_hover');
+        var id = $(this).data('id');
+        var nodeid = 'phoneproperty-'+id;
+         $(".phoneproperty").css("display","none");
+         $("#"+nodeid).css("display","block");
+    });
+    $('.tabcomputerproperty').hover(function(){
+               // $(this).addClass('item_hover');
+                var id = $(this).data('id');
+                var nodeid = 'computerproperty-'+id;
+                 $(".computerproperty").css("display","none");
+                 $("#"+nodeid).css("display","block");
+            });
+    $('.tabdianqiproperty').hover(function(){
+       // $(this).addClass('item_hover');
+        var id = $(this).data('id');
+        var nodeid = 'dianqiproperty-'+id;
+         $(".dianqiproperty").css("display","none");
+         $("#"+nodeid).css("display","block");
+    });
+    $('.tabclothproperty').hover(function(){
+       // $(this).addClass('item_hover');
+        var id = $(this).data('id');
+        var nodeid = 'clothproperty-'+id;
+         $(".clothproperty").css("display","none");
+         $("#"+nodeid).css("display","block");
+    });
+    $('.tabjiajuproperty').hover(function(){
+       // $(this).addClass('item_hover');
+        var id = $(this).data('id');
+        var nodeid = 'jiajuproperty-'+id;
+         $(".jiajuproperty").css("display","none");
+         $("#"+nodeid).css("display","block");
+    });
+  </script>
+{% endblock %}

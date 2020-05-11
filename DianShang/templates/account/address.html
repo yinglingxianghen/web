@@ -1,0 +1,182 @@
+{% extends "account/base_account.html" %}
+
+{% block title %}编辑地址信息{% endblock %}
+
+{% block content %}
+ <div class="orderContainer pt20 mb20">
+   <div id="sMenu" class="menuSidebar">
+        <!-- =E smenu 侧边导航 -->
+       {% include 'account/leftmenu.html' %}
+
+    </div>
+    <div class="pageContent">
+        <div class="mcTitle">
+                <ul class="user_tab1 fl">
+                    <li class="curr">收货地址</li>
+                </ul>
+        </div>
+        <div class="sns-config box-detail">
+            <h2 class="h2-single"><span class="entity" >收货地址</span></h2>
+            <div class="form-box" id="J_FormBox">
+                <form id="J_FormDeliver" action="{% url "address" %}" method="post">
+                           <input type="hidden" id="csrfmiddlewaretoken" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                           <input type="hidden" id="id" name="id" value="{{ address.id}}">
+                           <div class="item item-devision" id="J_ItemDivision">
+                            <span class="item-label tsl" data-phase-id="d_p_location">所在地区 <i>*</i></span>
+                            <div id="J_CitySelect" class="ks-clear clearfix">
+                                {% if address %}
+                                    <select id="province" name="province" ><option value="{{ address.provinces.province_code }}">{{ address.provinces.province }}</option></select>
+                                    <select id="city" name="city" ><option value="{{ address.city.city_code }}">{{ address.city.city }}</option></select>
+                                    <select id="district" name="district" ><option value="{{ address.area.area_code }}">{{ address.area.area }}</option></select>
+                                {% else  %}
+                                   <select id="province" name="province" >
+                                     {% for province in provinces %}
+                                         <option value="{{ province.province_code }}">{{ province.province }}</option>
+                                     {% endfor  %}
+                                   </select>
+                                   <select id="city" name="city">
+                                      <option value="">请选择城市</option>
+                                   </select>
+                                   <select id="district" name="district">
+                                      <option value="">请选择区/县</option>
+                                   </select>
+                                {% endif  %}
+                            </div>
+                        </div>
+                        <div class="item item-street" id="J_ItemStreet">
+                            <span class="item-label tsl" >详细地址 <i>*</i></span>
+                            <div class="ks-combobox" id="J_ComboboxStreet" >
+                                <div class="ks-combobox-input-wrap">
+                                    <textarea class="ks-combobox-input i-ta disabled tsl"  name="addressDetail"   placeholder="建议您如实填写详细收货地址" >{{ address.address }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item item-postcode" >
+                            <span class="item-label tsl" >邮政编码 </span>
+                            <div class="item-warp">
+                               <input name="post" aria-label="邮政编码" maxlength="16"    class="i-text tsl" id="J_PostCode" value="{{ address.post }}" type="text">
+                            </div>
+                        </div>
+                        <div class="item item-username" >
+                            <span class="item-label tsl" data-phase-id="d_p_receiverName">收货人姓名 <i>*</i></span>
+                            <div class="item-warp">
+                            <input name="fullName" class="i-text tsl"  id="J_Name"   value="{{ address.signername }}" type="text">
+                            </div>
+                        </div>
+                        <div class="item item-mobile" >
+                            <span class="item-label tsl" >手机号码 </span>
+                            <div class="item-warp">
+                            <input name="mobile" class="i-text tsl"  id="J_Mobile"  value="{{ address.mobile }}" type="text">
+                            </div>
+                        </div>
+                        <div class="item item-phone" >
+                            <span class="item-label tsl">电话号码 </span>
+                            <div class="item-warp">
+                            <input name="phoneCode" maxlength="10" class="i-text tsl" id="J_PhoneCode"   value="{{ address.tel }}" type="text">
+                            </div>
+                        </div>
+                        <div class="item item-set-default" >
+                            <input class="i-chk" name="defaultAddress" id="J_SetDefault" type="checkbox" value="">
+                            <label for="J_SetDefault" class="tsl" >设置为默认收货地址</label>
+                        </div>
+                        <div class="item">
+                            <input type="submit" class="btn  tsl" value="保存">
+                        </div>
+                    </form>
+            </div>
+
+            <div class="tbl-deliver-address">
+                <table class="tbl-main" cellspacing="0" cellpadding="0" border="0">
+                            <colgroup>
+                                <col class="col-man">
+                                <col class="col-area">
+                                <col class="col-address">
+                                <col class="col-postcode">
+                                <col class="col-phone">
+                                <col class="col-actions">
+                            </colgroup>
+                            <tbody>
+                                <tr class="thead-tbl-grade">
+                                    <th >收货人</th>
+                                    <th>所在地区</th>
+                                    <th>详细地址</th>
+                                    <th>邮编</th>
+                                    <th>电话/手机</th>
+                                    <th>操作</th>
+                                    <th></th>
+                                </tr>
+                               {% for address in address_list %}
+                                <tr class="thead-tbl-address  address-default">
+                                        <td>{{ address.signername }}</td>
+                                        <td>{{ address.provinces.province }} {{ address.city.city }} {{ address.area.area }}  </td>
+                                        <td>{{ address.address }}</td>
+                                        <td>{{ address.post }}</td>
+                                        <td>
+                                           {{ address.mobile }}
+                                        </td>
+                                        <td>
+                                        <a href="/account/address?id={{ address.id }}&action=update">修改</a> |
+                                        <a href="/account/address?id={{ address.id }}&action=del&csrfmiddlewaretoken={{csrf_token}}&class='del'">删除</a>
+                                        </td>
+                                        <td class="thead-tbl-status">
+                                            {% if address.flag == '0'  %}
+                                              <span class="note"> <a href="/account/address?id={{ address.id }}&action=update&flag=1">默认地址</a> </span>
+                                            {% endif  %}
+                                       </td>
+                                </tr>
+                              {% endfor  %}
+                            </tbody>
+                        </table>
+            </div>
+        </div>
+    </div>
+ </div>
+<script >
+$(function(){
+  // 获取省份
+  $.get('/account/getProvince/',function(data){
+  for(var i = 0,len = data.provinces.length; i<len ;i++){
+      $new = $("<option value="+data.provinces[i][0] +">"+  data.provinces[i][1]  +"</option>" );
+     $("#province").append( $new );
+  }
+
+ });
+
+ //改变省份后
+ $("#province").change(function(){
+     //清空市和区
+     $("#city").empty().append('<option value="">请选择城市</option>');
+     $("#district").empty().append('<option value="">请选择区/县</option>');
+     $.ajax({
+         url:'/account/getCity/',
+         type:'get',
+
+         data:{"province_code":$(this).val()}
+     }).done(function(data){
+         for(var i = 0,len = data.cities.length; i<len ;i++){
+             $new = $( "<option value="+data.cities[i][0] +">"+  data.cities[i][1]  +"</option>" );
+             $("#city").append( $new );
+         }
+     });
+ });
+
+ //改变城市后
+ $("#city").change(function(){
+     //清空市和区
+     $("#district").empty().append('<option value="">请选择区/县</option>');
+     $.ajax({
+         url:'/account/getAreas/',
+         type:'get',
+        data:{"city_code":$(this).val()}
+     }).done(function(data){
+         for(var i = 0,len = data.district.length; i<len ;i++){
+             $new = $( "<option value="+data.district[i][0] +">"+  data.district[i][1]  +"</option>" );
+             $("#district").append($new );
+         }
+     });
+     });
+
+ })
+</script>
+
+{% endblock %}

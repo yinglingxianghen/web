@@ -1,0 +1,448 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ product.name }}详情页
+{% endblock %}
+{% block content %}
+<body class="product-single">
+
+	<!-- PAGE WRAPPER -->
+<div id="page-wrapper">
+		<!-- BREADCRUMB -->
+		<div class="breadcrumb-container">
+			<div class="container">
+				<div class="relative">
+					<ul class="bc unstyled clearfix">
+						<li><a href="#">首页</a></li>
+						<li><a href="/productlist?categoryid={{ product.category.id }}">{{ product.category.name }}</a></li>
+						<li class="active">{{ product.name }} 详情</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- // BREADCRUMB -->
+		<!-- SITE MAIN CONTENT -->
+		<main id="main-content" role="main">
+			<section class="section">
+				<div class="container">
+					 <!--商品信息 -->
+                    <div class="row">
+						<!-- PRODUCT PREVIEW -->
+						<div class="col-xs-12 col-sm-4">
+
+							<div class="product-preview">
+								<div class="big-image">
+									<a href="{{ product.largeimage.url }}" data-toggle="lightbox">
+										<img src="{{ product.largeimage.url }}" alt="" />
+									</a>
+								</div>
+							</div>
+
+						</div>
+						<!-- // PRODUCT PREVIEW -->
+						<!-- PRODUCT DETAILS -->
+						<div class="col-xs-12 col-sm-8">
+							<section class="product-details ">
+								<header class="entry-header">
+									<h3 class="entry-title uppercase">{{ product.name }}</h3>
+								</header>
+                                <ul class="tb-meta tb-promo-meta">
+                                    <li id="J_StrPriceModBox" class="tb-detail-price tb-clear J_PriceItem"  >
+                                        <span class="tb-property-type">价格</span>
+                                        <div class="tb-property-cont" style="font-size: 14px; color: rgb(60, 60, 60); font-weight: 400; text-decoration: line-through;">
+                                            <strong id="J_StrPrice">
+                                                <em class="tb-rmb">¥</em><em class="tb-rmb-num">{{ product.price }}</em>
+                                            </strong>
+                                        </div>
+                                    </li>
+                                    <li id="J_PromoPrice" class="tb-detail-price tb-promo-price tb-clear">
+                                        <span class="tb-property-type">优惠价</span>
+                                        <div class="tb-property-cont tb-promo-hd">
+                                                <strong class="tb-promo-price"><em class="tb-rmb">¥</em>
+                                                    <em  class="tb-rmb-num">{{ product.saleprice }}</em>
+                                                </strong>
+                                                <span  class="tb-promo-type">大促价</span>
+                                                <span  class="tb-promo-tips"></span>
+                                        </div>
+                                    </li>
+                                  {% if coupon_list %}
+                                    <li  class="tb-clear">
+                                        <span class="tb-property-type" >优惠</span>
+                                        <div class="tb-other-discount">
+                                          {% for coupon in coupon_list %}
+                                            <div class="tb-other-discount-content tb-coupon">
+                                                    <img class="tb-coupon-icon" src="/static/img/youhui-80-16.png" >{{ coupon.description }}
+                                                        <a class="J_coupon" href="{% url 'coupon_list'%}"   >领取</a>
+                                            </div>
+                                           {% endfor  %}
+                                        </div>
+                                    </li>
+                                  {% endif  %}
+                                </ul>
+
+                                <div id="J_SepLine" class="sep-line" ></div>
+
+                                <div id="J_isku" class="tb-key tb-key-sku" shortcut-key="i" shortcut-label="挑选宝贝" shortcut-effect="focus">
+                                  <form action="{% url "addcart"  %}" method="post">
+                                    <div class="tb-skin">
+                                      <span id="J_TMySize" class="size-btn" ></span>
+                                      <dl class="tb-amount tb-clear">
+                                        <dt class="tb-property-type" >数量</dt>
+                                        <dd>
+                                            <span class="tb-stock" id="J_Stock">
+                                                <a href="javascript:void(0);" title="减1" hidefocus="" class="tb-reduce J_Reduce tb-iconfont tb-disable-reduce">ƛ</a>
+                                                <input id="quantity" name="quantity" class="tb-text" value="1" maxlength="8" title="请输入购买量" type="text">
+                                                <a href="javascript:void(0);" hidefocus="" class="tb-increase J_Increase tb-iconfont" title="加1">ƚ</a>件
+                                            </span>
+                                            <em>(库存<span id="J_SpanStock" class="tb-count">{{ product.stock }}</span>件)</em>
+                                        </dd>
+                                    </dl>
+                                      <div id="J_juValid" class="tb-action tb-clearfix ">
+                                               <div class="tb-btn-buy">
+                                                      <input id="product_id" name="product_id" value="{{ product.id }}" type="hidden">
+                                                      {% csrf_token %}
+                                                      <input type="submit" class="J_LinkBuy"  value="立即购买">
+                                                </div>
+                                               <div class="tb-btn-add">
+                                                    <a href="javascript:;" class="J_LinkAdd  add-cart "  data-product-id={{ product.id }} title="加入购物车"  >
+                                                        <i class="tb-iconfont">ŭ</i>加入购物车
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                  </form>
+                                </div>
+
+							</section>
+						</div>
+						<!-- // PRODUCT DETAILS -->
+					</div>
+
+                    <!--商品详情、评价、推荐 -->
+                    <div class="grid-s5m0 tm-clear">
+                          <!--左边 -->
+                        <div class="col-sub">
+					        <div id="J_DcShopArchive" class="J_DcAsyn" role="complementary">
+                                 <div id="side-shop-info" >
+                                    <div class="shop-intro">
+                                        <div style="height: 49px; margin-top: 0px; margin-bottom: 0px; overflow: hidden; width: 123px;"></div>
+                                        <div class="shop-cert shop-ages">
+                                            <span class="icon">4</span>
+                                            <div class="text">天猫4年店</div>
+                                        </div>
+                                        <div class="main-info">
+
+                                            <div class="shopdsr-item">
+                                                <div class="shopdsr-title">描 述</div>
+                                                <div class="shopdsr-score shopdsr-score-up-ctrl">
+                                                    <span class="shopdsr-score-con">4.8</span>
+                                                    <s class="shopdsr-score-up"></s>
+                                                </div>
+                                            </div>
+
+                                            <div class="shopdsr-item">
+                                                <div class="shopdsr-title">服 务</div>
+                                                <div class="shopdsr-score shopdsr-score-up-ctrl">
+                                                    <span class="shopdsr-score-con">4.8</span>
+                                                    <s class="shopdsr-score-up"></s>
+                                                </div>
+                                            </div>
+
+                                            <div class="shopdsr-item">
+                                                <div class="shopdsr-title">物 流</div>
+                                                <div class="shopdsr-score shopdsr-score-up-ctrl">
+                                                    <span class="shopdsr-score-con">4.8</span>
+                                                    <s class="shopdsr-score-up"></s>
+                                                </div>
+                                            </div>
+                                           </div>
+                                        <div class="btnArea"><a  href="" target="_blank" class="enterShop">进店逛逛</a>
+                                            <a id="x" href=""  class="J_PopupTrigger collection xshop_sc J_TDialogTrigger J_TokenSign favShop" data-width="440" data-height="260" >收藏店铺</a>
+                                        </div>
+                                    </div>
+                                 </div>
+                            </div>
+
+                            <div class="skin-box tb-module tshop-pbsm tshop-pbsm-shop-top-list">
+                                <s class="skin-box-tp"><b></b></s>
+                                    <div class="skin-box-hd">
+                                        <i class="hd-icon"></i>
+                                        <h3>
+                                            <span >宝贝排行榜</span>
+                                        </h3>
+                                    </div>
+                                    <div class="skin-box-bd">
+                                    <ul class="top-list-tab">
+                                        <li id="saletab" class="list-tab selected"><span class="J_SaleTab tab1">销售量</span></li>
+                                        <li id="collectiontab" class="list-tab J_Collect"><span class="J_CollectTab tab2">收藏数</span></li>
+                                    </ul>
+                                    <div class="panels">
+                                        <div class="panel sale saletab">
+                                            <ul>
+                                               {% for products in bestsale_product %}
+                                                 <li class="item even first">
+                                                    <div class="more">
+                                                        <a href="" target="_blank">
+                                                            <img src="{{ products.product.image.url}}" class="hover-show">
+                                                        </a>
+                                                    </div>
+                                                    <div class="img">
+                                                        <a  href="{% url 'product_detail'%}?productid={{ product.id}}" target="_blank">
+                                                            <img  src="{{ products.product.image.url}}" class="hover-show img-ks-lazyload"></a>
+                                                    </div>
+                                                    <div class="detail">
+
+                                                        <p class="desc"><a   href="{% url 'product_detail'%}?productid={{ product.id}}">
+                                                             {{ products.product.name|slice:"12"}}</a></p>
+                                                        <p class="price">￥<span>{{ products.product.saleprice}} </span></p>
+                                                        <p class="sale">
+                                                            已售出<span class="sale-count">{{ products.total}}</span>笔  </p>
+                                                     </div>
+                                                </li>
+                                               {% endfor%}
+                                            </ul>
+                                        </div>
+                                        <div class="panel collection  collectiontab disappear">
+                                            <ul>
+                                               {% for products in userfav_list %}
+                                                 <li class="even first">
+                                                    <div class="more">
+                                                        <a target="_blank" href="{% url 'product_detail'%}?productid={{ products.products.id}}">
+                                                            <img class="hover-show" src="{{ products.products.image.url}}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="img">
+                                                        <a href="javascript:void(0);">
+                                                        <img class="hover-show" src="{{ products.products.image.url}}" ></a>
+                                                    </div>
+                                                    <div class="detail">
+                                                        <p class="desc">
+                                                            <a href="{% url 'product_detail'%}?productid={{  products.products.id}}"  target="_blank">{{ products.products.name|slice:"12"}}</a>
+                                                        </p>
+                                                        <p class="price"><span class="symbol">¥</span><span>{{ products.products.saleprice}}</span></p>
+                                                        <p class="sale">已收藏<span class="sale-count">{{ products.total}}</span>笔</p>
+                                                </div>
+                                                </li>
+                                                {% endfor%}
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <s class="skin-box-bt"><b></b></s>
+
+                            </div>
+                           {% if  recommended_products %}
+			                <div class="J_TModule"  data-title="宝贝推荐">
+                                 <div class="skin-box-hd">
+                                        <i class="hd-icon"></i>
+                                        <h3>
+                                            <span >宝贝推荐</span>
+                                        </h3>
+                                    </div>
+                                    <div class="skin-box tb-module tshop-pbsm tshop-pbsm-shop-item-recommend"  style="height: auto;">
+                                     {% for recommended in recommended_products %}
+                                        <s class="skin-box-tp"><b></b></s>
+                                        <div class="skin-box-bd">
+                                             <div class="item1line1">
+                                                  <dl class="item  last " >
+                                                    <dt class="photo">
+                                                        <a href="{% url 'product_detail'%}?productid={{  recommended.id}}" target="_blank">
+                                                            <img src="{{ recommended.image.url}}" alt="" class="img-ks-lazyload" style="width: 188px; height: 188px;">
+                                                        </a>
+                                                    </dt>
+                                                    <dd class="detail">
+                                                    <a class="item-name" href="{% url 'product_detail'%}?productid={{  recommended.id}}" target="_blank"> {{ recommended.name|slice:"12"}} </a>
+
+                                                    <div class="attribute">
+                                                            <div class="cprice-area"><span class="symbol"> </span><span class="c-price">¥{{ recommended.saleprice}}</span></div>
+                                                            <div class="sprice-area"><span class="symbol"> </span><span class="s-price">{{ recommended.total}}</span></div>
+                                                    </div>
+                                                </dd>
+                                                  </dl>
+                                             </div>
+                                        </div>
+                                        <s class="skin-box-bt"><b></b></s>
+                                     {% endfor%}
+                                    </div>
+                            </div>
+			                {% endif%}
+			             </div>
+                          <!--右边 -->
+                        <div id="mainwrap" class="main-wrap" role="main">
+                            <div id="J_TabBarBox" >
+                                <ul id="J_TabBar" class="tabbar tm-clear" >
+                                    <li id="description" class="tm-selected productdetail" >
+                                        <a  href="#description"  >商品详情</a>
+                                    </li>
+                                    <li  id="productcomments" class="productdetail" >
+                                        <a  href="#comments" >累计评价
+                                            <em class="J_ReviewsCount" style="display: inline;">{{ comments_count}}</em></a>
+                                    </li>
+
+                                </ul
+                                >
+                            </div>
+                            <div id="attributes" class="attributes">
+                                    <div class="attributes-list" >
+                                            <p class="attr-list-hd tm-clear"><em>品牌名称：</em></p>
+                                            <p class="attr-list-hd tm-clear"><em>产品参数：</em></p>
+                                    </div>
+                              </div>
+
+                            <!--商品详情 -->
+                            <div id="J_DcTopRightWrap" class="description divinfo">
+                                 <p>
+                                     {{ product.description |safe}}
+                                 </p>
+
+                            </div>
+                            <!--商品评价 -->
+                            <div  class="commentsSection comments divinfo " style="display: none">
+                                <h4 class="hd">累计评价 <em class="J_ReviewsCount" style="display: inline;">{{ comments_count}}</em></h4>
+                               <div class="tm-rate">
+                                   <div class="rate-header rate-header-tags" style="display: block;">
+                                        <div class="rate-score"><h4>与描述相符</h4>
+                                            <strong >4.8</strong>
+                                            <p><span class="score-value-no score-value-4d8"><em></em></span></p>
+                                        </div>
+
+                                        <div class="rate-tag-box">
+                                            <div class="rate-tag-list" style="height: 70px;">
+                                                <div class="rate-tag-inner">
+                                                  {% for tag in tag_list %}
+                                                     <span class="tag-posi"><a >{{ tag.name}}({{ tag.commentsnum}})<s></s></a></span>
+                                                  {% endfor%}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="rate-grid">
+                                    <table>
+                                        <tbody>
+                                          {% for comments in comments_list %}
+                                          <tr>
+                                            <td class="tm-col-master">
+                                                <div class="comment-item" >
+                                                  <div class="user-column">
+                                                      <div class="user-info">
+                                                          <img src="{{ comments.user.profile.photo}}" alt="" class="avatar" height="25" width="25">
+                                                           {{ comments.user.username}}
+                                                      </div>
+
+                                                  </div>
+                                                  <div class="comment-column J-comment-column">
+                                                      <p class="comment-con" style="padding-left: 20px;margin-top: 10px">{{ comments.content}}</p>
+                                                      <div class="pic-list J-pic-list">
+                                                           {% for pic in comments.commentspic_set.all %}
+                                                              <a class="J-thumb-img" href="#none" data-ind="0">
+                                                                  <img src="{{ pic.picurl.url}}" alt="" height="48" width="48"></a>
+                                                           {% endfor%}
+                                                      </div>
+                                                      <div class="J-pic-view-wrap clearfix" data-rotation="0">
+                                                      </div>
+                                                      <div class="comment-message">
+                                                      <div class="order-info"><span>金色</span><span>B770</span>
+                                                          <span>{{ comments.date_publish}}</span>
+                                                      </div>
+                                              </div>
+                                              </div>
+                                              </div>
+
+                                            </td>
+                                          </tr>
+                                        {% endfor%}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                  {% if comments_list.paginator.num_pages > 1 %}
+                                    <div class="ui-page-wrap clearfix">
+                                        <div class="ui-page">
+                                             {% if comments_list.has_previous %}
+                                                    <a class='paginator' title='上一页' href='{{ curr_url}}&page={{ comments_list.previous_page_number }}#comments'><span>上一页</span></a>
+                                             {% endif %}
+                                             {% for page in comments_list.paginator.page_range %}
+                                                 {% if page == comments_list.number %}
+                                                     <a class='ui-page-curr' title='当前页:{{ page }}'><span>当前页{{ page }}</span></a>
+                                                 {% else %}
+                                                     <a class='paginator' href='{{ curr_url}}&page={{ page }}#comments' title='{{ page }}'><span>{{ page }}</span></a>
+                                                 {% endif %}
+                                             {% endfor %}
+                                             {% if comments_list.has_next %}
+                                                 <a class='ui-pager-next' title='下一页' href='{{ curr_url}}&page={{ comments_list.next_page_number }}#comments'><span>下一页</span></a>
+                                             {% endif %}
+                                        </div>
+                                    </div>
+                                  {% endif %}
+                                 </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+				</div>
+			</section>
+		</main>
+		<!-- // SITE MAIN CONTENT -->
+		<!-- SITE FOOTER -->
+	<!-- // SITE FOOTER -->
+<!-- // PAGE WRAPPER -->
+<!-- Essential Javascripts -->
+<script src="{% static "js/products.js"%}"></script>
+
+</div>
+<script>
+  //tab信息切换
+     $(".list-tab").hover('click',function(event){
+       var clickedNode = $(this);
+       var showid=$(this).attr("id");
+       $(".list-tab").removeClass("selected");
+       $(".panel").css('display','none');
+       $('.'+showid).css('display','block');
+       clickedNode.addClass("selected");
+
+    });
+    //当评价分页时应回到评价页面
+    $(document).ready(function(){
+     if(window.location.hash!=""){
+        var hashpage = window.location.hash.split("#");
+        if(hashpage[1] == 'comments' ) {
+            $(".description").css('display','none');
+            //显示评价
+            $('.comments').css('display','block');
+        }
+     }
+
+});
+
+    //商品详细信息与评价切换
+     $(".productdetail").bind('click',function(event){
+       var clickedNode = $(this);
+       var showid=$(this).attr("id");
+       $('.productdetail').removeClass("tm-selected");
+       $('#'+showid).addClass("tm-selected");
+       $(".divinfo").css('display','none');
+       $('.'+showid).css('display','block');
+
+    });
+     //购买数量加1
+     $(".J_Increase").bind('click',function(event){
+         var amount=Number($("#quantity").val());
+         amount=amount+1;
+         $("#quantity").attr("value", amount);
+     });
+     //购买数量减1
+     $(".J_Reduce").bind('click',function(event){
+         var amount=Number($("#quantity").val());
+         if (amount>1){
+              amount=amount-1;
+         }else{
+             amount=1;
+         }
+         $("#quantity").attr("value", amount);
+     });
+
+ </script>
+{% endblock %}

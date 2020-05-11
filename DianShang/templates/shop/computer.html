@@ -1,0 +1,123 @@
+  <!-- 电脑数码 -->
+    <div class="floor wbox edit-mode floor-current"  data-title="电脑数码" >
+                <div class="ct temp0">
+                    <div class="mt" style="border-bottom:1px solid #50bfec">
+                        <div class="mtTop"><h2>电脑数码</h2></div>
+                        <ul class="tab" floor-info="2" hcolor="#50bfec">
+                            {% for currsale in saleproperty_computer %}
+                                <li  class="tabcomputerproperty" data-id="{{ currsale.id}}">
+                                  <a href="javascript:void(0);" data-id="{{ currsale.id}}">{{ currsale.pname}}</a>
+                                </li>
+                            {% endfor%}
+                        </ul>
+                    </div>
+                    <div class="mc">
+                        <div class="mc_l" style="background: #50bfec">
+                                <a class="mc_l_img edit-mode" href=""  target="_blank" >
+                                    <img class="lazyloading" src="/static/img/T1ezbgBKKT1RCvBVdK.png"  title="" height="278" width="220">
+                                </a>
+                                <div class="keyAll">
+                                    <div class="channelbg">
+                                        <div class="channel" style="background: #3eb8e9">
+                                            <ul class="channel_inner">
+                                                <li class="edit-mode" >
+                                                     {% for currcategory in category_computer2 %}
+                                                     <a href="{% url 'category' %}?topcatename=电脑数码&topid=2&seccateid={{currcategory.id }}&selcatename={{ currcategory.name }}" target="_blank" data-code="{{ currcategory.id}}">{{ currcategory.name}}</a><span>/</span>
+                                                    {% endfor%}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="keywords edit-mode" style="" >
+                                        <ul class="w55">
+                                            {% for computerchild in category_computerchild %}
+                                                <li class="">
+                                                    <a href="{%url 'category' %}?topcatename=电脑数码&thirdid={{ computerchild.id }}&selcatename={{ computerchild.name}}" target="_blank" data-code="{{ computerchild.id}}">{{ computerchild.name}}</a>
+                                                </li>
+                                            {% endfor%}
+                                        </ul>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="main_warp">
+                        {% for currsale in saleproperty_computer %}
+                          {% if currsale.pname == '精选热卖' %}
+                            <div id="computerproperty-{{ currsale.id}}" class="main computerproperty" style="display: block;" tab-data-load="0">
+                                    <div class="mc_c " style="">
+                                            <ul class="slider edit-mode" >
+                                                    <li style="display: block;">
+                                                        <a href=""  target="_blank">
+                                                            <img  src="/static/img/T1ouZvB4Vj1RCvBVdK.jpg"  height="470" width="389">
+                                                        </a>
+                                                    </li>
+                                            </ul>
+                                        <div class="brand_slider edit-mode" >
+                                                <ul style="display: block;">
+                                                        <li><a href=""  target="_blank" title="dell">
+                                                            <img src="/static/img/T1S6_TBvxT1RCvBVdK.jpeg"  height="30" width="100"></a>
+                                                        </li>
+                                                        <li><a href="" target="_blank" title="苹果">
+                                                            <img src="/static/img/T13gYvBmWQ1RCvBVdK.jpg"  height="30" width="100"></a>
+                                                        </li>
+                                                        <li><a href=""  target="_blank" title="华硕">
+                                                            <img src="/static/img/T1gkZvBjAv1RCvBVdK.jpg"  height="30" width="100"></a></li>
+
+                                                        <li><a href=""  target="_blank" title="惠普">
+                                                            <img src="/static/img/T1goZTBXLv1RCvBVdK.jpeg"  height="30" width="100"></a></li>
+
+                                                        <li><a href=""  target="_blank" title="thinkpad">
+                                                            <img src="/static/img/T1pyKgB4CT1RCvBVdK.jpg"   height="30" width="100"></a></li>
+
+                                                        <li><a href=""  target="_blank" title="神舟">
+                                                            <img src="/static/img/T13RLjBy_T1RCvBVdK.jpg" height="30" width="100"></a></li>
+                                                 </ul>
+                                        </div>
+                                    </div>
+                                <div class="mc_r">
+                                    <ul class="mc_r_inner edit-mode" >
+                                          {% for computerhot in products_computer %}
+                                              {% if computerhot.saleproperty.pname == '精选热卖' %}
+                                                 <li>
+                                                    <a href="{% url 'product_detail'%}?productid={{ computerhot.id}}" data-code="" target="_blank">
+                                                      <span >
+                                                         <img class="lazyloading hotimage" src="{{ computerhot.image.url}}"   title="" >
+                                                      </span>
+                                                      <p class="item-price">
+                                                          <span class="price asynPrice" >¥{{ computerhot.saleprice}}</span>	            	            	            	                                              </p>
+                                                      <p class="item-name">{{ computerhot.name}}</p>
+                                                    </a>
+                                                 </li>
+                                              {% endif%}
+                                          {% endfor%}
+                                    </ul>
+                                </div>
+                            </div>
+                         {% else %}
+                             <div id="computerproperty-{{ currsale.id}}" class="main computerproperty" tab-data-load="1" style="display: none;">
+                                <ul class="main_inner">
+                                    {% for products in products_computer %}
+                                         {% if currsale.id == products.saleproperty.id %}
+                                          <li>
+                                              <a href="{% url 'product_detail'%}?productid={{ products.id}}"  target="_blank" title="">
+                                                  <img class="lazyloading" src="{{ products.image.url}}" alt="" height="130" width="130">
+                                                  <p class="p_name">{{ products.name}}</p>
+                                                  <p class="p_price" ><span>¥</span>{{ products.saleprice}}</p>
+                                              </a>
+                                          </li>
+                                         {% endif%}
+                                    {% endfor%}
+                                </ul>
+                             </div>
+                         {% endif %}
+                      {% endfor%}
+                        </div>
+                    </div>
+                    <ul class="wbox fl_b edit-mode" >
+                          <li>
+                            <a href=""  target="_blank">
+                                  <img class="lazyloading" src="/static/img/T13IVgB5hT1RCvBVdK.jpg"   title="">
+                            </a>
+                          </li>
+                    </ul>
+                </div>
+           </div>

@@ -1,0 +1,72 @@
+<div class="smenu">
+		<div class="hd">
+			<dl>
+				  {% if user.profile.photo %}
+                         <dt clas="pic"><a  href="/userinfo">
+                             <img  align="absmiddle" style="width:45px;margin-top:-3px;margin-left:-3px;border-radius:45px;box-shadow:0px 0px 6px #7E7E7E;"  src="{{user.profile.photo}}"  alt="" title="{{user}}"></a>
+                         </dt>
+                 {%else %}
+                         <dt clas="pic"> <a  href="/userinfo">
+                             <img align="absmiddle" style="width:45px;margin-top:-8px;margin-left:-3px;border-radius:45px;box-shadow:0px 0px 6px #7E7E7E;"  src="/static/img/avatar.png" alt="" title="{{user}}"></a>
+                         </dt>
+                 {% endif %}
+				<dd>
+				<div class="name"><a target="_blank" href="/userinfo" class="c_666">{{user}}</a></div>
+                        <a style="display: none;"  class="icoann" href="javascript:;">公告</a>
+                        <div class="set"> <a  href="/">积分：{{user.profile.score}}</a></div>
+                </dd>
+			</dl>
+		</div>
+		<div class="bd">
+			<ul class="list">
+
+                {% if submenu == 'userinfo' %}
+                     <li class="smenu_4 curr"><a class="myTask" href="{% url "updateuserinfo" %}">基本信息</a>	</li>
+                 {%else %}
+				    <li class="smenu_4  "><a class="myTask" href="{% url "updateuserinfo" %}">基本信息</a>	</li>
+                 {% endif%}
+                 {% if submenu == 'updatepassword'%}
+				     <li class="smenu_1 curr "><a  href="{% url "updatepassword" %}">修改密码</a></li>
+                 {%else %}
+                      <li class="smenu_1 "><a  href="{% url "updatepassword" %}">修改密码</a></li>
+                 {% endif%}
+                 {% if submenu == 'myaddress'%}
+				     <li class="smenu_2 curr "><a  href="{% url "address" %}">我的地址</a></li>
+                 {%else %}
+                      <li class="smenu_2 "><a  href="{% url "address" %}">我的地址</a></li>
+                 {% endif%}
+
+                 {% if submenu == '/mycart' %}
+                     <li class="smenu_3 curr"><a href="{% url "mycart" %}">我的购物车</a></li>
+                 {%else %}
+				     <li class="smenu_3 "><a href="{% url "mycart" %}">我的购物车</a></li>
+                 {% endif%}
+                 {% if submenu == '/myorder' %}
+                     <li class="smenu_9 curr"><a href="{% url "myorder" %}">我的订单</a></li>
+                 {%else %}
+				     <li class="smenu_9 "><a href="{% url "myorder" %}">我的订单</a></li>
+                 {% endif%}
+                 {% if submenu == '/mycomment' %}
+                     <li class="smenu_11 curr"><a href="{% url "mycomment" %}">评价晒单</a></li>
+                 {%else %}
+				     <li class="smenu_11 "><a href="{% url "mycomment" %}">评价晒单</a></li>
+                 {% endif%}
+                 {% if submenu == '/coupon' %}
+                     <li class="smenu_8  curr"><a href="{% url "coupon" %}">优惠券</a></li>
+                 {%else %}
+				      <li class="smenu_8  "><a href="{% url "coupon" %}">优惠券</a></li>
+                 {% endif%}
+
+                 {% if submenu == '/mymessage' %}
+                    <li class="smenu_7 curr"><a class="icoR_19" href="{% url "mymessage" %}">我的消息</a></li>
+                  {%else %}
+				    <li class="smenu_7 "><a class="icoR_19" href="{% url "mymessage" %}">我的消息</a></li>
+                 {% endif %}
+                 {% if submenu == '/myfav' %}
+                    <li class="smenu_10 curr"><a class="icoR_19" href="{% url "myfav" %}">我的收藏</a></li>
+                  {%else %}
+				    <li class="smenu_10 "><a class="icoR_19" href="{% url "myfav" %}">我的收藏</a></li>
+                 {% endif %}
+			</ul>
+		</div>
+	</div><!-- =E smenu 侧边导航 -->

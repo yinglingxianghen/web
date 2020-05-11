@@ -1,0 +1,82 @@
+{% extends "account/base_account.html" %}
+
+{% block title %}我的消息{% endblock %}
+
+{% block content %}
+
+<div class="orderContainer pt20 mb20">
+   <div id="sMenu" class="menuSidebar">
+	  {% include 'account/leftmenu.html' %}
+</div>
+        <div class="pageContent">
+            <div class="mcTitle">
+                <ul class="user_tab1 fl">
+                    <li class="curr">我的消息</li>
+                </ul>
+            </div>
+
+            <!-- =E mcSecrchBar -->
+
+			<div class="tabBox_wddd mb20">
+				<table cellspacing="0" class="mcTab">
+					<colgroup>
+						<col width="50">
+                        <col width="60">
+                        <col width="400">
+                        <col width="60">
+                        <col width="60">
+
+					</colgroup>
+					<thead>
+						<tr class="tdata">
+							<th>
+								<span class="pl20">类型</span>
+							</th>
+							<th>
+								<span class="p120">主题</span>
+							</th>
+							<th>
+								<span>内容</span>
+							</th>
+                            <th>
+								<span>添加时间</span>
+							</th>
+                             <th>
+								<span>发送人</span>
+							</th>
+
+						</tr>
+					</thead>
+					<tbody>
+                      {% for item in usermessage%}
+						<tr>
+							<td>
+								<div class="pl20">
+									{{item.messagetype}}
+								</div>
+							</td>
+							<td>
+                               <span>{{item.subject}}</span>
+							</td>
+							<td>
+								<span>{{item.message}}</span>
+							</td>
+                            <td>
+								<span>{{item.addtime}}</span>
+							</td>
+                            <td>
+								<span>{{item.senduser.name}}</span>
+							</td>
+						 </tr>
+                       {% endfor%}
+						</tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

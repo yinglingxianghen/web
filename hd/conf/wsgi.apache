@@ -1,0 +1,44 @@
+# Apache configuration for Booktype server V1.0.6
+
+<VirtualHost *:80>
+
+     # Change the following three lines for your server
+
+     ServerName __INSERT_SERVER_NAME__
+     SetEnv HTTP_HOST "__INSERT_SERVER_NAME__"
+     ServerAdmin __INSERT_ADMIN_EMAIL__
+
+     SetEnv LC_TIME "en_GB.UTF-8"
+     SetEnv LANG "en_GB.UTF-8"
+
+     <Directory __WEB_PATH__>
+        Require all granted
+     </Directory>
+
+     WSGIScriptAlias / __WSGI_FULLPATH__
+     WSGIApplicationGroup %{GLOBAL}
+     
+     # uncomment 'Require all granted' for Apache 2.4 without mod_access_compat
+
+     <Directory __WEB_PATH__/__PROJECT_NAME__>
+      <Files wsgi.py>
+          Require all granted
+      </Files>
+     </Directory>
+
+     Alias /static/ "__WEB_PATH__/static/"
+     <Directory "__WEB_PATH__/static/">
+       #Require all granted
+       Options -Indexes
+     </Directory>
+     
+     Alias /data/ "__WEB_PATH__/data/"
+     <Directory "__WEB_PATH__/data/">
+       #Require all granted
+       Options -Indexes
+     </Directory>
+
+     ErrorLog ${APACHE_LOG_DIR}/__PROJECT_NAME__-error.log
+     LogLevel warn
+     CustomLog ${APACHE_LOG_DIR}/__PROJECT_NAME__-access.log combined
+</VirtualHost>

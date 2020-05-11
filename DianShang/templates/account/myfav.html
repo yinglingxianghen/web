@@ -1,0 +1,49 @@
+{% extends "account/base_account.html" %}
+
+{% block title %}我的收藏{% endblock %}
+
+{% block content %}
+
+<div class="orderContainer pt20 mb20">
+   <div id="sMenu" class="menuSidebar">
+	  {% include 'account/leftmenu.html' %}
+   </div>
+   <div class="pageContent">
+            <div class="mcTitle">
+                <ul class="user_tab1 fl">
+                    <li class="curr">我的收藏</li>
+                </ul>
+            </div>
+
+			<div class="fav-list">
+                <ul class="fav-list">
+                  {% for item in userfav%}
+                    <li class="fav-item istmall g-i-item ">
+                        <div class="img-controller-box J_FavImgController">
+                                <a href="" class="img-controller-img-link" target="_blank" >
+                                    <img class="img-controller-img" src="{{item.products.image.url}}" >
+                                </a>
+                        </div>
+                        <div class="img-item-title">
+                            <a class="img-item-title-link"  target="_blank" href="" data-spm="">
+                                {{item.products.name }}
+                            </a>
+                        </div>
+                        <div class="price-container">
+                          <div class="g_price-box">
+                                    <span>¥</span>
+                                    <strong>{{item.products.price}}</strong>
+                          </div>
+                        </div>
+                    </li>
+                   {% endfor%}
+                </ul>
+            </div>
+
+   </div>
+
+</div>
+
+
+
+{% endblock %}

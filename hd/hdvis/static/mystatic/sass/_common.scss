@@ -1,0 +1,32 @@
+@import "veriable";
+@import "mixin";
+
+$maxW:pxTorem(1200px);
+
+html{
+    font-size: $browser-default-font-size;
+}
+html,body{
+   height: 100%;
+}
+// body{
+//     max-width: pxTorem(1200px);
+//     margin: 0 auto;
+// }
+a{
+    text-decoration: none;
+}
+p{
+    margin: 0;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+
+.clearfix{
+    overflow:auto;
+    _height:1%;
+}

@@ -1,0 +1,120 @@
+ <!-- 家居家装 -->
+    <div class="floor wbox edit-mode floor-current"  data-title="家居家装" >
+              <div class="ct temp1" data-lazy-img-install="1">
+                <div class="mt" style="border-bottom:1px solid #abce5b">
+                    <div class="mtTop"><h2>家居家装</h2></div>
+                    <ul class="tab" floor-info="7" hcolor="#abce5b">
+                        {% for currsale in saleproperty_jiaju %}
+                                <li  class="tabjiajuproperty" data-id="{{ currsale.id}}">
+                                  <a href="javascript:void(0);" data-id="{{ currsale.id}}">{{ currsale.pname}}</a>
+                                </li>
+                       {% endfor%}
+                    </ul>
+                </div>
+                <div class="mc">
+                    <div class="mc_l" style="background: #abce5b">
+                            <a class="mc_l_img edit-mode" href=""  target="_blank" >
+                                <img class="lazyloading" src="/static/img/T1jixvBQbT1RCvBVdK.png"  height="278" width="220"></a>
+                            <div class="keyAll">
+                                <div class="channelbg">
+                                    <div class="channel" style="background: #9cc736">
+                                            <ul class="channel_inner">
+                                                 {% for currcategory in category_jiaju2 %}
+                                                    <li class="edit-mode" >
+                                                        <a href="{% url 'category' %}?topcatename=家居家装&topid=5&seccateid={{currcategory.id }}&selcatename={{ currcategory.name }}" target="_blank" data-code="{{ currcategory.id}}">{{ currcategory.name}}</a>
+                                                    </li><li class="line"></li>
+                                                {% endfor%}
+                                            </ul>
+                                    </div>
+                                </div>
+                                <div class="keywords edit-mode" >
+                                    <ul class="w55">
+                                        {% for jiajuchild in category_jiajuchild %}
+                                            <li class="">
+                                                <a href="{%url 'category' %}?topcatename=家居家装&thirdid={{ jiajuchild.id }}&selcatename={{ jiajuchild.name}}" target="_blank" data-code="{{ jiajuchild.id}}">{{ jiajuchild.name}}</a>
+                                            </li>
+                                        {% endfor%}
+                                    </ul>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="main_warp">
+                     {% for currsale in saleproperty_jiaju %}
+                        {% if currsale.pname == '精选热卖' %}
+                         <div id="jiajuproperty-{{ currsale.id}}" class="main jiajuproperty" style="display: block" tab-data-load="0">
+                             <div class="mc_c ">
+                                        <ul class="slider edit-mode" >
+                                             <li style="display: list-item;">
+                                                 <a href="" target="_blank">
+                                                     <img class="lazyloading" src="/static/img/T1zKAgBC_T1RCvBVdK.jpg"  height="470" width="479"></a>
+                                             </li>
+                                        </ul>
+                                       <div class="brand_slider edit-mode" modelid="1000061484" modeltype="2">
+                                            <ul style="display: block;">
+                                                    <li><a href=""  target="_blank" title="飞利浦">
+                                                        <img src="/static/img/T15GZTBT_v1RCvBVdK.jpeg"  height="30" width="100"></a></li>
+
+                                                    <li><a href=""  target="_blank" title="TOTO">
+                                                        <img src="/static/img/T1I6CvBQbb1RCvBVdK.jpg"  height="30" width="100"></a></li>
+
+                                                    <li><a href=""  target="_blank" title="美的">
+                                                        <img src="/static/img/T1.PLTBTK_1RCvBVdK.jpeg" height="30" width="100"></a></li>
+
+                                                    <li><a href=""  target="_blank" title="ABB">
+                                                        <img src="/static/img/T1IvdTBKZv1RCvBVdK.jpeg"  height="30" width="100"></a></li>
+
+                                                    <li><a href=""  target="_blank" title="膳魔师">
+                                                        <img src="/static/img/T1SJKTBXJv1RCvBVdK.jpeg"  height="30" width="100"></a></li>
+
+                                                    <li><a href=""  target="_blank" title="苏泊尔">
+                                                        <img src="/static/img/T1K5ETBjKv1RCvBVdK.jpeg" height="30" width="100"></a></li>
+
+                                                    <li><a href="" data-code="1000061484-7" target="_blank" title="洁柔">
+                                                        <img src="/static/img/T1khZvBjxv1RCvBVdK.jpeg" height="30" width="100"></a></li>
+
+                                                    <li><a href=""  target="_blank" title="爱丽思">
+                                                        <img src="/static/img/T1n5bTBvxT1RCvBVdK.jpeg"  height="30" width="100"></a></li>
+                                            </ul>
+                                       </div>
+                                </div>
+                             <div class="mc_r">
+                                <ul class="mc_r_inner edit-mode" >
+                                    {% for jiajuhot in products_jiaju %}
+                                        {% if jiajuhot.saleproperty.pname == '精选热卖' %}
+                                            <li>
+                                                <a href="{% url 'product_detail'%}?productid={{ jiajuhot.id}}" data-code="" target="_blank">
+                                                  <span >
+                                                     <img class="lazyloading hotimage" src="{{ jiajuhot.image.url}}"   title="" >
+                                                  </span>
+                                                  <p class="item-price">
+                                                      <span class="price asynPrice" >¥{{ jiajuhot.saleprice}}</span>	            	            	            	                                              </p>
+                                                  <p class="item-name">{{ jiajuhot.name}}</p>
+                                                </a>
+                                            </li>
+                                        {% endif%}
+                                    {% endfor%}
+                                </ul>
+                            </div>
+                        </div>
+                      {% else %}
+                         <div id="jiajuproperty-{{ currsale.id}}" class="main jiajuproperty"  style="display: none;">
+                                <ul class="main_inner">
+                                    {% for products in products_jiaju %}
+                                         {% if currsale.id == products.saleproperty.id %}
+                                          <li class="clothwidth">
+                                              <a href="{% url 'product_detail'%}?productid={{ products.id}}" class="clwidth"  target="_blank" title="">
+                                                  <img class="lazyloading" src="{{ products.image.url}}" alt="" height="130" width="130">
+                                                  <p class="p_name">{{ products.name}}</p>
+                                                  <p class="p_price" ><span>¥</span>{{ products.saleprice}}</p>
+                                              </a>
+                                          </li>
+                                         {% endif%}
+                                    {% endfor%}
+                                </ul>
+                             </div>
+                         {% endif %}
+                      {% endfor%}
+                    </div>
+                </div>
+              </div>
+        </div>

@@ -1,0 +1,29 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+.gitignore
+
+# IntelliJ project files
+/.idea
+*.iml
+*.pyc
+.DS_Store
+*.swp
+out
+gen
+/bin
+*.htmlbac
+*.pybac
+static/*
+data/*
+test/*
+data/*
+*.zip
+nohup.out
+hdvis/train_model.m*
+train_model.m*
+train_model.m
+hd/settings.py
+
+!.gitignore

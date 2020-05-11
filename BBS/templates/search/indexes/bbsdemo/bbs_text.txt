@@ -1,0 +1,3 @@
+{{ object.goods_name }}  # 根据商品名字建立索引文件
+{{ object.goods_sub_title }}
+{{ object.goods_info }}

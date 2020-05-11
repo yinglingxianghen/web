@@ -1,0 +1,17 @@
+# 定义 stages
+stages:
+  - build
+
+# 定义 job
+job1:
+  stage: build
+  script: 
+    - docker login reg.xiaoneng.cn -uadmin -p8ql6,yhY
+    - docker pull reg.xiaoneng.cn/oa/backend_base
+    - docker build -t reg.xiaoneng.cn/oa/backend:$CI_COMMIT_REF_NAME .
+    - docker push reg.xiaoneng.cn/oa/backend:$CI_COMMIT_REF_NAME
+    - docker-compose -f ~/docker-compose.yml down
+    - docker-compose -f ~/docker-compose.yml up -d
+  only:
+    - 'develop'
+
