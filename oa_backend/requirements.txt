@@ -8,7 +8,7 @@ Django==1.11.7
 django-auth-ldap==1.2.16
 django-celery==3.2.2
 django-ldapdb==0.9.0
-djangorestframework==3.7.3
+djangorestframework==3.11.2
 gunicorn==19.7.1
 idna==2.6
 kombu==3.0.37
