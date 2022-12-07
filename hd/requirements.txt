@@ -5,7 +5,7 @@ backports.shutil-get-terminal-size==1.0.0
 billiard==3.3.0.23
 celery==3.1.25
 celery-with-redis==3.0
-certifi==2017.11.5
+certifi==2022.12.7
 chardet==3.0.4
 colorama==0.3.9
 decorator==4.1.2
